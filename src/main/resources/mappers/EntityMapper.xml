@@ -8,6 +8,7 @@
         <result column="usrSID" property="usrSID" jdbcType="VARCHAR"/>
         <result column="EntName" property="EntName" jdbcType="VARCHAR"/>
         <result column="EntTmpl" property="EntTmpl" jdbcType="INTEGER"/>
+        <result column="EntTypeSID" property="EntTypeSID" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--实体-关系-->
@@ -33,8 +34,8 @@
 
     <!--保存实体内容-->
     <insert id="saveEntityInfo" parameterType="com.hiekn.plantdata.Entity.UsrEntity">
-        INSERT INTO UsrEntity(EntSID,EntName,usrSID,EntTmpl)
-        VALUES(#{EntSID,jdbcType=VARCHAR},#{EntName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{EntTmpl,jdbcType=VARCHAR});
+        INSERT INTO UsrEntity(EntSID,EntName,usrSID,EntTmpl,EntTypeSID)
+        VALUES(#{EntSID,jdbcType=VARCHAR},#{EntName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{EntTmpl,jdbcType=INTEGER},#{EntTypeSID,jdbcType=VARCHAR});
     </insert>
 
     <!--保存实体关系内容-->
@@ -87,5 +88,10 @@
     <!--根据条件查询，该用户下的实体类型-->
     <select id="getUsrGraphEntityListByName"  parameterType="java.lang.String" resultType="java.util.HashMap">
         SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  and u.EntName=#{1} ORDER BY EntSID;
+    </select>
+
+    <!--当前用户、此实体类下面的实体-->
+    <select id="getUsrGraphEntityListByUsrIDAndEntTypeID"  parameterType="java.lang.String" resultType="java.util.HashMap">
+        SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  and u.EntTypeSID=#{1} ORDER BY EntSID;
     </select>
 </mapper>

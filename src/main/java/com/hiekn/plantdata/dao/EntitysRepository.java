@@ -149,4 +149,31 @@ public interface EntitysRepository  extends GraphRepository<ResultheadData> {
      */
     @Query("MATCH (m)-[r]->(n) where id(m) = {mId} and id(n) in {longsAttr}   and id(r) in {longsRel}  DETACH DELETE r,n;")
      void deleteEntitysTypeRelation(@Param("mId") long mId, @Param("longsAttr") long[] longsAttr, @Param("longsRel") long[] longsRel);
+
+
+    /**
+     * 根据实体类ID ，查询其下的实体个数
+     * @param mId
+     * @return
+     */
+    @Query("MATCH (n:level3) where n.parentId={mId}  RETURN count(n) as cnt;")
+    long findEntitysCount(@Param("mId") long mId);
+
+    /**
+     * 通过ID 。查询其实体树节点属性信息
+     * @param entityId
+     * @return
+     */
+    @Query("MATCH path = (n)-[*1..10]->(p:属性) where id(n) in{entityId} return nodes(path) as nodes")
+    List<ResultheadData> findEntityTreeDataById(@Param("entityId") long[] entityId);
+
+
+    /**
+     * 通过ID ,属性名称。查询其实体树节点属性信息
+     * @param attrName
+     * @return
+     */
+    @Query("MATCH path=(p:level3:属性) where  p.name in{attrName}  and id(p) in {attrID} return nodes(path) as nodes")
+    List<ResultheadData> findEntityTreeDataByIdAndName(@Param("attrName") String[] attrName,@Param("attrID") long []attrID);
+
 }

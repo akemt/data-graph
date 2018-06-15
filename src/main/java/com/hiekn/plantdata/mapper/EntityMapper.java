@@ -96,4 +96,14 @@ public interface EntityMapper {
      * @return
      */
     List<Map<String, String>> getUsrGraphEntityListByName(String usrID, String EntName);
+
+
+    /**
+     * 当前用户、此实体类下面的实体
+     *
+     * @param usrID
+     * @param entTypeID
+     * @return
+     */
+    List<Map<String, String>> getUsrGraphEntityListByUsrIDAndEntTypeID(String usrID, String entTypeID);
 }

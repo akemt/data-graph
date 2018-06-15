@@ -23,7 +23,7 @@ public interface EntityClassService {
      * @param id
      * @return
      */
-    public Map<String, Object> getEntitysClassInfo(long id,String usrID);
+    public Map<String, Object> getEntitysClassInfo(long id, String usrID);
 
     /**
      * 更新实体类数据
@@ -42,7 +42,7 @@ public interface EntityClassService {
      * @param page
      * @return
      */
-    List<Map<String, Object>> getEntitysClassList(String userId,String searchStr, Integer page);
+    List<Map<String, Object>> getEntitysClassList(String userId, String searchStr, Integer page);
 
 
     /**
@@ -67,9 +67,20 @@ public interface EntityClassService {
 
     /**
      * 根据当前用户，查询该用户下的实体类型
+     *
      * @param usrID
      * @return
      */
-    public List<Long>  getUsrGraphEntityTypeList(String usrID);
+    public List<Long> getUsrGraphEntityTypeList(String usrID);
+
+
+    /**
+     * 实体类中出现的属性和百分比
+     *
+     * @param mid
+     * @param userId
+     * @return
+     */
+    public Map<String, Object> getAttributesPercent(String mid, String userId);
 
 }

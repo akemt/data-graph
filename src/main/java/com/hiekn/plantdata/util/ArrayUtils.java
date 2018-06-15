@@ -2,6 +2,7 @@ package com.hiekn.plantdata.util;
 
 import com.hiekn.plantdata.Entity.Enterprise;
 import com.hiekn.plantdata.bean.item.RelationItem;
+import com.hiekn.plantdata.common.AttrTreeNode;
 import com.hiekn.plantdata.common.TreeNode;
 import org.neo4j.ogm.model.Property;
 import org.neo4j.ogm.response.model.RelationshipModel;
@@ -26,6 +27,17 @@ public class ArrayUtils {
             longs[i] = list.get(i);
         }
         return longs;
+    }
+
+    public static String listDataToStr(List<Long> list) {
+        String str="";
+        for (int i = 0; i < list.size(); ++i) {
+            str += list.get(i)+",";
+        }
+        if(str.length()>0){
+            str = str.substring(0,str.length()-1);
+        }
+        return  str;
     }
 
 
@@ -160,6 +172,43 @@ public class ArrayUtils {
         return arlList;
     }
 
+    public static List removeDuplicateAttrTreeNode(List<AttrTreeNode> arlList)
+    {
+        Set set = new HashSet();
+        List newList = new ArrayList();
+        for (Iterator iter = arlList.iterator(); iter.hasNext(); )
+        {
+            AttrTreeNode element = (AttrTreeNode)iter.next();
+            if (set.add(element.getId()))
+                newList.add(element);
+        }
+        arlList.clear();
+        arlList.addAll(newList);
+        return arlList;
+    }
+
+
+    /**
+     * 去掉
+     * @param arlList
+     * @return
+     */
+    public static List removeDuplicateAttrNameTree(List<AttrTreeNode> arlList)
+    {
+        Set set = new HashSet();
+        List newList = new ArrayList();
+        for (Iterator iter = arlList.iterator(); iter.hasNext(); )
+        {
+            AttrTreeNode element = (AttrTreeNode)iter.next();
+            if (set.add(element.getAttrname())) {
+                newList.add(element);
+            }
+        }
+        arlList.clear();
+        arlList.addAll(newList);
+        return arlList;
+    }
+
     /**
      *  获取List 信息中的id
      * @param mapList
@@ -176,4 +225,21 @@ public class ArrayUtils {
         }
         return longList;
     }
+
+    /**
+     * Java List中的重复项出现次数
+     * @param trees_
+     * @return
+     */
+    public static  Map getListNum(List<String> trees_) {
+
+        Map map = new HashMap();
+
+        for (String temp : trees_) {
+            Integer count = (Integer) map.get(temp);
+            map.put(temp, (count == null) ? 1 : count + 1);
+        }
+        return map;
+    }
+
 }

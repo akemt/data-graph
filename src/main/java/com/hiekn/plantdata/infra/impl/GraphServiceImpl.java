@@ -182,7 +182,7 @@ public class GraphServiceImpl implements GraphService {
             ResultheadData resultheadData1 = infoList.get(i);
             for (NodeModel nodesEntity : resultheadData1.getNodes()) {
                 if (nodesEntity.getPropertyList().size() > 0) {
-                    Object name = nodesEntity.property("Name");
+                    Object name = nodesEntity.property("name");
                     entityItem.setName((String) name);
                     entityItem.setAbs("");
                     Set<String> syns = new HashSet<String>();

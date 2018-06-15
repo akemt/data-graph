@@ -136,4 +136,19 @@ public class EntityClassController {
             return Result.success(mapList,200,"无数据!");
         }
     }
+
+
+    /**
+     * 实体类中出现的属性和百分比
+     * @param mid
+     * @param session
+     * @return
+     */
+    @GetMapping(value = "/{mid}/attributes/percent")
+    @ResponseBody
+    public Result getAttributesPercent(@PathVariable(value = "mid") String mid, HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        Map<String,Object> map = entityClassService.getAttributesPercent(mid,"2");
+        return Result.success(map,200,"请求成功!");
+    }
 }

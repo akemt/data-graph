@@ -1,17 +1,21 @@
 package com.hiekn.plantdata;
 
-import net.sf.json.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.junit.Test;
 
-import java.util.Random;
+import java.util.stream.IntStream;
+
 public class test {
 
-    @Test
-    public static void main(String args[]){
-        String str= "[\"111\"]";
-        JSONArray jValue = JSONArray.fromObject(str);
-        for (int i =0;i<=jValue.size();i++)
-        System.out.print(jValue.getString(i));
+    public static void main(String args[]) {
+        int[] a = {1,2,3,4};
+
+        double i = 2;
+        long l = 3;
+//        boolean contains = IntStream.of(a).anyMatch(x -> x == 5);
+
+
+        System.out.print(i/l);
     }
 //    public void main(){
 ////        long[] ages={1,2,3,4,5};

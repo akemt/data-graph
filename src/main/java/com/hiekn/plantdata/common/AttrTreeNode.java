@@ -1,12 +1,11 @@
 package com.hiekn.plantdata.common;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Massive on 2016/12/26.
  */
-public class TreeNode {
+public class AttrTreeNode {
 
     private long id;
 
@@ -14,22 +13,34 @@ public class TreeNode {
 
     private String name;
 
-    private List<String> value;
+    private double percent;
 
-    private List<TreeNode> children = new ArrayList<>();
+    private String attrname;
 
-    public TreeNode(long id, String name, long parentId, List<String> value) {
+    private List<AttrTreeNode> children;
+
+    public AttrTreeNode(long id, String name, long parentId, long percent, List<AttrTreeNode> children) {
         this.id = id;
         this.parentId = parentId;
         this.name = name;
-        this.value = value;
+        this.percent = percent;
+        this.children = children;
     }
 
-    public TreeNode(long id, String name, TreeNode parent, List<String> value) {
-        this.id = id;
-        this.parentId = parent.getId();
-        this.name = name;
-        this.value = value;
+    public String getAttrname() {
+        return attrname;
+    }
+
+    public void setAttrname(String attrname) {
+        this.attrname = attrname;
+    }
+
+    public double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
     }
 
     public long getParentId() {
@@ -56,29 +67,22 @@ public class TreeNode {
         this.id = id;
     }
 
-    public List<TreeNode> getChildren() {
+    public List<AttrTreeNode> getChildren() {
         return children;
     }
 
-    public void setChildren(List<TreeNode> children) {
+    public void setChildren(List<AttrTreeNode> children) {
         this.children = children;
-    }
-
-    public List<String> getValue() {
-        return value;
-    }
-
-    public void setValue(List<String> value) {
-        this.value = value;
     }
 
     @Override
     public String toString() {
-        return "TreeNode{" +
+        return "AttrTreeNode{" +
                 "id='" + id + '\'' +
                 ", parentId='" + parentId + '\'' +
                 ", name='" + name + '\'' +
-                ", value='" + value + '\'' +
+                ", attrname='" + attrname + '\'' +
+                ", percent='" + percent + '\'' +
                 ", children=" + children +
                 '}';
     }

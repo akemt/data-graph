@@ -9,6 +9,7 @@ import com.hiekn.plantdata.infra.EntityService;
 import com.hiekn.plantdata.infra.Neo4jDriverService;
 import com.hiekn.plantdata.mapper.EntityMapper;
 import com.hiekn.plantdata.util.ArrayUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.neo4j.ogm.response.model.NodeModel;
 import org.neo4j.ogm.response.model.RelationshipModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.*;
  */
 @Service
 @Transactional
+@Slf4j
 public class EntityServiceImpl implements EntityService {
 
 
@@ -73,20 +75,20 @@ public class EntityServiceImpl implements EntityService {
             //获取当前用户下，此实体类下的所有属性
             List<Map<String,String>>  mapListAttr = entityMapper.getUsrGraphEntityAttrList(userId,String.valueOf(id));
             List<Long> longListAttr = ArrayUtils.getMapListToListLong(mapListAttr);
-            long[] longsAttr = ArrayUtils.listDataToLong(longListAttr);
+            String longsAttr = ArrayUtils.listDataToStr(longListAttr);
             //获取当前用户下，此实体类下的所有关系
             List<Map<String,String>>  mapListRel = entityMapper.getUsrGraphRelationListByUsrIDAndEntID(userId,"01",String.valueOf(id));
             List<Long> longListRel = ArrayUtils.getMapListToListLong(mapListRel);
-            long[] longsRel = ArrayUtils.listDataToLong(longListRel);
+            String longsRel = ArrayUtils.listDataToStr(longListRel);
 
             //关系型数据库-删除该实体类 以下的节点和关系
             entityMapper.deleteEntAttrInfoByEntID(userId, strId);
 
             entityMapper.deleteEntRelInfoByEntID(strId,"01",userId);
             //给节点加parentId 赋值
-//            String strdeleteNode = "MATCH (m)-[r]->(n) where id(m) = "+strId+" DETACH DELETE r,n";
-//            neo4jDriverService.saveLabels(strdeleteNode);
-            entitysRepository.deleteEntitysTypeRelation(Long.valueOf(strId),longsAttr,longsRel);
+            String strdeleteNode = "MATCH (m)-[r]->(n) where id(m) = "+strId+" and id(n) in ["+longsAttr+"]   and id(r) in ["+longsRel+"]  DETACH DELETE r,n;";
+            neo4jDriverService.saveLabels(strdeleteNode);
+//            entitysRepository.deleteEntitysTypeRelation(Long.valueOf(strId),longsAttr,longsRel);
         }
         String jaStrDefine = jsonObject.getString("define");
         //将jsonArray字符串转化为JSONArray
@@ -110,7 +112,7 @@ public class EntityServiceImpl implements EntityService {
 
                 String jAttrValue = jsonArrayDefine.getJSONObject(i).getString("value");
 
-                System.out.println("Name: " + jAttrName + ",Value: " + JSONArray.fromObject(jAttrValue).toString());
+                log.info("Name: " + jAttrName + ",Value: " + JSONArray.fromObject(jAttrValue).toString());
                 JSONArray jValue = JSONArray.fromObject(jAttrValue);
                 String value = "";
                 for (int k =0;k<jValue.size();k++) {
@@ -153,17 +155,15 @@ public class EntityServiceImpl implements EntityService {
 //                String strRelationshipsValue = "match (s)-[r:"+relationName+"]->(e) set r.from = id(s),r.to = id(e)";
 //                neo4jDriverService.saveLabels(strRelationshipsValue);
                 if(jsonArrayDefine.getJSONObject(i).get("children").equals("null")){
-                    System.out.println("Children is null ");
+                    log.info("Children is null ");
                 }
                 else{
                     String jAttrChildren = jsonArrayDefine.getJSONObject(i).getString("children");
-                    System.out.println("Children: " + jAttrChildren);
+                    log.info("Children: " + jAttrChildren);
                     JSONArray jAttrChildrenObject = JSONArray.fromObject(jAttrChildren);
                     if (jAttrChildrenObject.size() > 0) {
                         String relationNameAndSx = "属性_包含_属性";
                         this.treeMenuList(userId,jAttrChildrenObject,ids,entID,strRelationName,relationNameAndSx);
-                    }else{
-                        break;
                     }
                 }
             }
@@ -264,11 +264,11 @@ public class EntityServiceImpl implements EntityService {
         String ename = jsonObject.getString("ename");
 
         //建立关系
-        String strAttrRelationships = "match (m) where id(m)="+rid+" match (n) where id(n)="+eid+"  merge(m)-[r:"+relationName+" {name:'"+relationName+"'}]->(n)   RETURN id(r)  as id";
+        String strAttrRelationships = "match (m) where id(m)="+rid+" match (n) where id(n)="+eid+"  merge(m)-[r:"+relationName+" {name:'"+relationName+"',from:id(m),to:id(n)}]->(n)   RETURN id(r)  as id";
         long ids = neo4jDriverService.saveLabelsReturnID(strAttrRelationships);
         //给关系赋值
-        String strRelationshipsValue = "match (s)-[r:"+relationName+"]->(e) set r.from = id(s),r.to = id(e)";
-        neo4jDriverService.saveLabels(strRelationshipsValue);
+//        String strRelationshipsValue = "match (s)-[r:"+relationName+"]->(e) set r.from = id(s),r.to = id(e)";
+//        neo4jDriverService.saveLabels(strRelationshipsValue);
 
         Map<String, Object> map = new HashMap<>();
         map.put("rid",ids);
@@ -302,11 +302,11 @@ public class EntityServiceImpl implements EntityService {
                         name = (String) nodesEntity.property("name");
                     }
                     long eID = Long.valueOf(String.valueOf(nodesEntity.getId()));
-                    if(eID == id){
-                    }else{
+//                    if(eID == id){
+//                    }else{
                         relationMap.put("eid",eID);
                         relationMap.put("ename",name);
-                    }
+//                    }
                 }
 
                 //关系List
@@ -361,6 +361,7 @@ public class EntityServiceImpl implements EntityService {
             entityType.setEntName(eClassname);
             entityType.setUsrSID(userId);
             entityType.setEntTmpl("");
+            entityType.setEntTypeSID(String.valueOf(mID));
             entityMapper.saveEntityInfo(entityType);
         }
         return map;

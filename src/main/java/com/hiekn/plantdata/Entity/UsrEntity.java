@@ -10,6 +10,15 @@ public class UsrEntity {
     private String usrSID;
     private String EntName;
     private String EntTmpl;
+    private String EntTypeSID;
+
+    public String getEntTypeSID() {
+        return EntTypeSID;
+    }
+
+    public void setEntTypeSID(String entTypeSID) {
+        EntTypeSID = entTypeSID;
+    }
 
     public String getEntSID() {
         return EntSID;
