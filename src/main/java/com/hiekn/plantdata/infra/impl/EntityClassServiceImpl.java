@@ -418,11 +418,11 @@ public class EntityClassServiceImpl implements EntityClassService {
         List<AttrTreeNode> attrTreeNodeList = this.getEntitysAttrTreeInfo(ArrayUtils.listDataToLong(ArrayUtils.getMapListToListLong(entityList)), treeEntityNameList);
 
         //新的tree 中，去掉重复attrname
-//        List<AttrTreeNode> removeDuplicateAttrNameTree = ArrayUtils.removeDuplicateAttrNameTree(attrTreeNodeList);
+        List<AttrTreeNode> removeDuplicateAttrNameTree = ArrayUtils.removeDuplicateAttrNameTree(attrTreeNodeList);
 
 
         //给新的tree,赋值百分比
-        List<AttrTreeNode> newAttrTreeNodeList =  TreeBuilder.buildReplacePercentByNoParentIdRecursive(attrTreeNodeList,entityCnt,mapAttrNum);
+        List<AttrTreeNode> newAttrTreeNodeList =  TreeBuilder.buildReplacePercentByNoParentIdRecursive(removeDuplicateAttrNameTree,entityCnt,mapAttrNum);
 
         Map<String, Object> mapTree = new HashMap<>();
 
