@@ -7,18 +7,18 @@
         <id column="usrSID" property="usrSID" jdbcType="VARCHAR"/>
         <result column="usrName" property="usrName" jdbcType="VARCHAR"/>
         <result column="usrPassword" property="usrPassword" jdbcType="VARCHAR"/>
-        <result column="usrNodeID" property="usrNodeID" jdbcType="INTEGER"/>
+        <result column="usrNodeID" property="usrNodeID" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
-        <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="level" property="U_LEVEL" jdbcType="INTEGER"/>
         <result column="atl_sn" property="atlSn" jdbcType="VARCHAR"/>
-        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="createTime" property="createTime" jdbcType="DATE"/>
+        <result column="updateTime" property="updateTime" jdbcType="DATE"/>
     </resultMap>
 
     <select id="queryUserInfoByUsrname" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         *
-        from User
+        from G_USER
         where usrName = #{usrName,jdbcType=VARCHAR}
     </select>
 
