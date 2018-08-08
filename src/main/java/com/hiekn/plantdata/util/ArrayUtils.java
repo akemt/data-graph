@@ -262,7 +262,7 @@ public class ArrayUtils {
         Map<String, String> map = null;
         for (int i = 0; i < mapList.size(); i++) {
             map = mapList.get(i);
-            String strID = map.get("id");
+            String strID = map.get("ID");
             longList.add(Long.valueOf(strID));
         }
         return longList;

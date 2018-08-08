@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hiekn.plantdata.mapper.ClassifyMapper" >
+  <resultMap id="BaseResultMap" type="com.hiekn.plantdata.Entity.Classify" >
+    <id column="CLASSID" property="classid" jdbcType="VARCHAR" />
+    <result column="CLASSNAME" property="classname" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLASSIFY
+    where CLASSID = #{classid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hiekn.plantdata.Entity.Classify" >
+    insert into CLASSIFY (CLASSID, CLASSNAME)
+    values (#{classid,jdbcType=VARCHAR}, #{classname,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hiekn.plantdata.Entity.Classify" >
+    update CLASSIFY
+    set CLASSNAME = #{classname,jdbcType=VARCHAR}
+    where CLASSID = #{classid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select CLASSID, CLASSNAME
+    from CLASSIFY
+    where CLASSID = #{classid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select CLASSID, CLASSNAME
+    from CLASSIFY
+  </select>
+</mapper>

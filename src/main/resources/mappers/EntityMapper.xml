@@ -35,20 +35,20 @@
     <!--保存实体内容-->
     <insert id="saveEntityInfo" parameterType="com.hiekn.plantdata.Entity.UsrEntity">
         INSERT INTO UsrEntity(EntSID,EntName,usrSID,EntTmpl,EntTypeSID)
-        VALUES(#{EntSID,jdbcType=VARCHAR},#{EntName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{EntTmpl,jdbcType=INTEGER},#{EntTypeSID,jdbcType=VARCHAR});
+        VALUES(#{EntSID,jdbcType=VARCHAR},#{EntName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{EntTmpl,jdbcType=INTEGER},#{EntTypeSID,jdbcType=VARCHAR})
     </insert>
 
     <!--保存实体关系内容-->
     <insert id="saveEntRelInfo" parameterType="com.hiekn.plantdata.Entity.UsrEntRel">
         INSERT INTO UsrEntRel(RtpSID,RtpName,usrSID,EntSID,Type)
-        VALUES(#{RtpSID,jdbcType=VARCHAR},#{RtpName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{EntSID,jdbcType=VARCHAR},#{Type,jdbcType=VARCHAR});
+        VALUES(#{RtpSID,jdbcType=VARCHAR},#{RtpName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{EntSID,jdbcType=VARCHAR},#{Type,jdbcType=VARCHAR})
     </insert>
 
     <!--保存实体属性内容-->
     <insert id="saveEntAttrInfo" parameterType="com.hiekn.plantdata.Entity.UsrEntAttrib">
         INSERT INTO UsrEntAttrib(AtbSID,AtbName,usrSID,DtpSID,ObjType,ObjSID,UntName,EntSID)
         VALUES(#{AtbSID,jdbcType=VARCHAR},#{AtbName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{DtpSID,jdbcType=VARCHAR},
-        #{ObjType,jdbcType=VARCHAR},#{ObjSID,jdbcType=VARCHAR},#{UntName,jdbcType=VARCHAR},#{EntSID,jdbcType=VARCHAR});
+        #{ObjType,jdbcType=VARCHAR},#{ObjSID,jdbcType=VARCHAR},#{UntName,jdbcType=VARCHAR},#{EntSID,jdbcType=VARCHAR})
     </insert>
 
     <!--根据实体ID ，删除其下的属性-->
@@ -67,31 +67,31 @@
     </delete>
     <!--根据条件查询，该用户下的实体关系-->
     <select id="getUsrGraphRelationList"  parameterType="java.lang.String" resultType="java.util.HashMap">
-          SELECT RtpSID as id,RtpName from UsrEntRel u where u.usrSID=#{0} and u.Type=#{1} ORDER BY RtpSID;
+          SELECT RtpSID as id,RtpName from UsrEntRel u where u.usrSID=#{0} and u.Type=#{1} ORDER BY RtpSID
     </select>
 
     <!--根据条件查询，该用户下,实体，实体关系-->
     <select id="getUsrGraphRelationListByUsrIDAndEntID"  parameterType="java.lang.String" resultType="java.util.HashMap">
-        SELECT RtpSID as id,RtpName from UsrEntRel u where u.usrSID=#{0} and u.Type=#{1}  and u.EntSID=#{2} ORDER BY RtpSID;
+        SELECT RtpSID as id,RtpName from UsrEntRel u where u.usrSID=#{0} and u.Type=#{1}  and u.EntSID=#{2} ORDER BY RtpSID
     </select>
 
     <!--根据条件查询，该用户下的实体-->
     <select id="getUsrGraphNodesList"  parameterType="java.lang.String" resultType="java.util.HashMap">
-        SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  ORDER BY EntSID;
+        SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  ORDER BY EntSID
     </select>
 
     <!--根据条件查询，该用户下的属性-->
     <select id="getUsrGraphEntityAttrList"  parameterType="java.lang.String" resultType="java.util.HashMap">
-        SELECT AtbSID as id,AtbName from UsrEntAttrib u where u.usrSID=#{0} and u.EntSID=#{1} ORDER BY EntSID;
+        SELECT AtbSID as id,AtbName from UsrEntAttrib u where u.usrSID=#{0} and u.EntSID=#{1} ORDER BY EntSID
     </select>
 
     <!--根据条件查询，该用户下的实体类型-->
     <select id="getUsrGraphEntityListByName"  parameterType="java.lang.String" resultType="java.util.HashMap">
-        SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  and u.EntName=#{1} ORDER BY EntSID;
+        SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  and u.EntName=#{1} ORDER BY EntSID
     </select>
 
     <!--当前用户、此实体类下面的实体-->
     <select id="getUsrGraphEntityListByUsrIDAndEntTypeID"  parameterType="java.lang.String" resultType="java.util.HashMap">
-        SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  and u.EntTypeSID=#{1} ORDER BY EntSID;
+        SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  and u.EntTypeSID=#{1} ORDER BY EntSID
     </select>
 </mapper>

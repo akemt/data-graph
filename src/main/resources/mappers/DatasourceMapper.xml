@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hiekn.plantdata.mapper.DatasourceMapper" >
+  <resultMap id="BaseResultMap" type="com.hiekn.plantdata.Entity.Datasource" >
+    <id column="DATASOURCEID" property="datasourceid" jdbcType="VARCHAR" />
+    <result column="DATASOURCENAME" property="datasourcename" jdbcType="VARCHAR" />
+    <result column="CLASSID" property="classid" jdbcType="VARCHAR" />
+    <result column="KIND" property="kind" jdbcType="VARCHAR" />
+    <result column="CONFIG" property="config" jdbcType="CLOB" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from DATASOURCE
+    where DATASOURCEID = #{datasourceid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hiekn.plantdata.Entity.Datasource" >
+    insert into DATASOURCE (DATASOURCEID, DATASOURCENAME, CLASSID, 
+      KIND, CONFIG)
+    values (#{datasourceid,jdbcType=VARCHAR}, #{datasourcename,jdbcType=VARCHAR}, #{classid,jdbcType=VARCHAR}, 
+      #{kind,jdbcType=VARCHAR}, #{config,jdbcType=CLOB})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hiekn.plantdata.Entity.Datasource" >
+    update DATASOURCE
+    set DATASOURCENAME = #{datasourcename,jdbcType=VARCHAR},
+      CLASSID = #{classid,jdbcType=VARCHAR},
+      KIND = #{kind,jdbcType=VARCHAR},
+      CONFIG = #{config,jdbcType=CLOB}
+    where DATASOURCEID = #{datasourceid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select DATASOURCEID, DATASOURCENAME, CLASSID, KIND, CONFIG
+    from DATASOURCE
+    where DATASOURCEID = #{datasourceid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select DATASOURCEID, DATASOURCENAME, CLASSID, KIND, CONFIG
+    from DATASOURCE
+  </select>
+</mapper>

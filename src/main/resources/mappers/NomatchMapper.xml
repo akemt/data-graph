@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hiekn.plantdata.mapper.NomatchMapper" >
+  <resultMap id="BaseResultMap" type="com.hiekn.plantdata.Entity.Nomatch" >
+    <id column="NOMATCHID" property="nomatchid" jdbcType="VARCHAR" />
+    <result column="CLASSID" property="classid" jdbcType="VARCHAR" />
+    <result column="DATASOURCEID" property="datasourceid" jdbcType="VARCHAR" />
+    <result column="NOMATCHNAME" property="nomatchname" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from NOMATCH
+    where NOMATCHID = #{nomatchid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hiekn.plantdata.Entity.Nomatch" >
+    insert into NOMATCH (NOMATCHID, CLASSID, DATASOURCEID, 
+      NOMATCHNAME)
+    values (#{nomatchid,jdbcType=VARCHAR}, #{classid,jdbcType=VARCHAR}, #{datasourceid,jdbcType=VARCHAR}, 
+      #{nomatchname,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hiekn.plantdata.Entity.Nomatch" >
+    update NOMATCH
+    set CLASSID = #{classid,jdbcType=VARCHAR},
+      DATASOURCEID = #{datasourceid,jdbcType=VARCHAR},
+      NOMATCHNAME = #{nomatchname,jdbcType=VARCHAR}
+    where NOMATCHID = #{nomatchid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select NOMATCHID, CLASSID, DATASOURCEID, NOMATCHNAME
+    from NOMATCH
+    where NOMATCHID = #{nomatchid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select NOMATCHID, CLASSID, DATASOURCEID, NOMATCHNAME
+    from NOMATCH
+  </select>
+</mapper>
