@@ -5,7 +5,9 @@ import com.hiekn.plantdata.infra.SynClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +24,6 @@ public class SynClassController {
 
     /**
      * 获得大类列表
-     *
      * @return
      */
     @GetMapping(value = "/list")
@@ -30,7 +31,22 @@ public class SynClassController {
     public Result getClassList() {
         List<Map<String,Object>> mapList = new ArrayList<>();
         mapList = synClassService.getClassList();
-            return Result.success(mapList, 200, "请求成功!");
+        return Result.success(mapList, 200, "请求成功!");
+    }
+
+    /**
+     * 获得码表列表
+     *
+     * @param searchStr
+     * @param classId
+     * @return
+     */
+    @GetMapping(value = "/{classId}/codeList")
+    @ResponseBody
+    public Result getCodeList(@PathVariable(value = "classId") String classId,@RequestParam(value = "searchStr",required = false) String searchStr,@RequestParam(value = "page") int page) {
+        Map<String,Object> map = new HashMap<>();
+        map = synClassService.getCodeList(classId,searchStr,page);
+        return Result.success(map, 200, "请求成功!");
     }
 
 }

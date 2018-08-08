@@ -1,9 +1,11 @@
 package com.hiekn.plantdata.mapper;
 
 import com.hiekn.plantdata.Entity.Code;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface CodeMapper {
@@ -16,4 +18,10 @@ public interface CodeMapper {
     List<Code> selectAll();
 
     int updateByPrimaryKey(Code record);
+
+    int getCodeCountByClass(String classId);
+
+    List<Code> getCodeListByClassId(Map<String,Object> condition);
+
+
 }

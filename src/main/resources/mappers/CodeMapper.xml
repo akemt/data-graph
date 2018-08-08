@@ -33,4 +33,22 @@
     select CODEID, CLASSID, CODE, CODENAME
     from CODE
   </select>
+
+  <select id="getCodeCountByClass" resultType="java.lang.Integer" >
+    select count(*)
+    from CODE
+    WHERE CLASSID = #{0}
+  </select>
+
+  <select id="getCodeListByClassId" parameterType="Map" resultMap="BaseResultMap" >
+    select a1.* from (
+    select CODEID, CLASSID, CODE, CODENAME,rownum rn
+    from CODE
+    WHERE CLASSID = #{classId}
+    <if test="searchStr != null">
+      AND CODENAME like concat(concat('%',#{searchStr}),'%')
+    </if>
+    ) a1 where rn between #{startNum} and #{endNum}
+
+  </select>
 </mapper>

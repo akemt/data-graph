@@ -27,4 +27,7 @@
     select CLASSID as "classId", CLASSNAME as "className"
     from CLASSIFY
   </select>
+
+
+
 </mapper>
