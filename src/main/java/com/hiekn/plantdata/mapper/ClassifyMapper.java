@@ -1,8 +1,12 @@
 package com.hiekn.plantdata.mapper;
 
 import com.hiekn.plantdata.Entity.Classify;
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
+@Repository
 public interface ClassifyMapper {
     int deleteByPrimaryKey(String classid);
 
@@ -10,7 +14,7 @@ public interface ClassifyMapper {
 
     Classify selectByPrimaryKey(String classid);
 
-    List<Classify> selectAll();
+    List<Map<String,Object>> selectAll();
 
     int updateByPrimaryKey(Classify record);
 }

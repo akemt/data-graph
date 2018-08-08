@@ -1,36 +1,36 @@
 package com.hiekn.plantdata.Entity;
 
 public class Nomatch {
-    private String nomatchid;
+    private String nomatchId;
 
-    private String classid;
+    private String classId;
 
-    private String datasourceid;
+    private String datasourceId;
 
     private String nomatchname;
 
-    public String getNomatchid() {
-        return nomatchid;
+    public String getNomatchId() {
+        return nomatchId;
     }
 
-    public void setNomatchid(String nomatchid) {
-        this.nomatchid = nomatchid == null ? null : nomatchid.trim();
+    public void setNomatchId(String nomatchId) {
+        this.nomatchId = nomatchId;
     }
 
-    public String getClassid() {
-        return classid;
+    public String getClassId() {
+        return classId;
     }
 
-    public void setClassid(String classid) {
-        this.classid = classid == null ? null : classid.trim();
+    public void setClassId(String classId) {
+        this.classId = classId;
     }
 
-    public String getDatasourceid() {
-        return datasourceid;
+    public String getDatasourceId() {
+        return datasourceId;
     }
 
-    public void setDatasourceid(String datasourceid) {
-        this.datasourceid = datasourceid == null ? null : datasourceid.trim();
+    public void setDatasourceId(String datasourceId) {
+        this.datasourceId = datasourceId;
     }
 
     public String getNomatchname() {
@@ -38,6 +38,6 @@ public class Nomatch {
     }
 
     public void setNomatchname(String nomatchname) {
-        this.nomatchname = nomatchname == null ? null : nomatchname.trim();
+        this.nomatchname = nomatchname;
     }
 }

@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hiekn.plantdata.mapper.SynonymMapper" >
   <resultMap id="BaseResultMap" type="com.hiekn.plantdata.Entity.Synonym" >
-    <id column="SYNID" property="synid" jdbcType="VARCHAR" />
-    <result column="CODEID" property="codeid" jdbcType="VARCHAR" />
-    <result column="SYNNAME" property="synname" jdbcType="VARCHAR" />
+    <id column="SYNID" property="synId" jdbcType="VARCHAR" />
+    <result column="CODEID" property="codeId" jdbcType="VARCHAR" />
+    <result column="SYNNAME" property="synName" jdbcType="VARCHAR" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from SYNONYM

@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hiekn.plantdata.mapper.CodeMapper" >
   <resultMap id="BaseResultMap" type="com.hiekn.plantdata.Entity.Code" >
-    <id column="CODEID" property="codeid" jdbcType="VARCHAR" />
-    <result column="CLASSID" property="classid" jdbcType="VARCHAR" />
+    <id column="CODEID" property="codeId" jdbcType="VARCHAR" />
+    <result column="CLASSID" property="classId" jdbcType="VARCHAR" />
     <result column="CODE" property="code" jdbcType="VARCHAR" />
-    <result column="CODENAME" property="codename" jdbcType="VARCHAR" />
+    <result column="CODENAME" property="codeName" jdbcType="VARCHAR" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from CODE

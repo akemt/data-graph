@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hiekn.plantdata.mapper.DatasourceMapper" >
   <resultMap id="BaseResultMap" type="com.hiekn.plantdata.Entity.Datasource" >
-    <id column="DATASOURCEID" property="datasourceid" jdbcType="VARCHAR" />
-    <result column="DATASOURCENAME" property="datasourcename" jdbcType="VARCHAR" />
-    <result column="CLASSID" property="classid" jdbcType="VARCHAR" />
+    <id column="DATASOURCEID" property="datasourceId" jdbcType="VARCHAR" />
+    <result column="DATASOURCENAME" property="datasourceName" jdbcType="VARCHAR" />
+    <result column="CLASSID" property="classId" jdbcType="VARCHAR" />
     <result column="KIND" property="kind" jdbcType="VARCHAR" />
     <result column="CONFIG" property="config" jdbcType="CLOB" />
   </resultMap>

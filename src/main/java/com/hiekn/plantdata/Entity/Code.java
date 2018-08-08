@@ -1,28 +1,28 @@
 package com.hiekn.plantdata.Entity;
 
 public class Code {
-    private String codeid;
+    private String codeId;
 
-    private String classid;
+    private String classId;
 
     private String code;
 
-    private String codename;
+    private String codeName;
 
-    public String getCodeid() {
-        return codeid;
+    public String getCodeId() {
+        return codeId;
     }
 
-    public void setCodeid(String codeid) {
-        this.codeid = codeid == null ? null : codeid.trim();
+    public void setCodeId(String codeId) {
+        this.codeId = codeId;
     }
 
-    public String getClassid() {
-        return classid;
+    public String getClassId() {
+        return classId;
     }
 
-    public void setClassid(String classid) {
-        this.classid = classid == null ? null : classid.trim();
+    public void setClassId(String classId) {
+        this.classId = classId;
     }
 
     public String getCode() {
@@ -30,14 +30,14 @@ public class Code {
     }
 
     public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
+        this.code = code;
     }
 
-    public String getCodename() {
-        return codename;
+    public String getCodeName() {
+        return codeName;
     }
 
-    public void setCodename(String codename) {
-        this.codename = codename == null ? null : codename.trim();
+    public void setCodeName(String codeName) {
+        this.codeName = codeName;
     }
 }

@@ -1,23 +1,23 @@
 package com.hiekn.plantdata.Entity;
 
 public class Classify {
-    private String classid;
+    private String classId;
 
-    private String classname;
+    private String className;
 
-    public String getClassid() {
-        return classid;
+    public String getClassId() {
+        return classId;
     }
 
-    public void setClassid(String classid) {
-        this.classid = classid == null ? null : classid.trim();
+    public void setClassId(String classId) {
+        this.classId = classId;
     }
 
-    public String getClassname() {
-        return classname;
+    public String getClassName() {
+        return className;
     }
 
-    public void setClassname(String classname) {
-        this.classname = classname == null ? null : classname.trim();
+    public void setClassName(String className) {
+        this.className = className;
     }
 }

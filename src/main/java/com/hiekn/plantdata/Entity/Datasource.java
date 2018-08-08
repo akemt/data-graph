@@ -1,38 +1,38 @@
 package com.hiekn.plantdata.Entity;
 
 public class Datasource {
-    private String datasourceid;
+    private String datasourceId;
 
-    private String datasourcename;
+    private String datasourceName;
 
-    private String classid;
+    private String classNd;
 
     private String kind;
 
     private String config;
 
-    public String getDatasourceid() {
-        return datasourceid;
+    public String getDatasourceId() {
+        return datasourceId;
     }
 
-    public void setDatasourceid(String datasourceid) {
-        this.datasourceid = datasourceid == null ? null : datasourceid.trim();
+    public void setDatasourceId(String datasourceId) {
+        this.datasourceId = datasourceId;
     }
 
-    public String getDatasourcename() {
-        return datasourcename;
+    public String getDatasourceName() {
+        return datasourceName;
     }
 
-    public void setDatasourcename(String datasourcename) {
-        this.datasourcename = datasourcename == null ? null : datasourcename.trim();
+    public void setDatasourceName(String datasourceName) {
+        this.datasourceName = datasourceName;
     }
 
-    public String getClassid() {
-        return classid;
+    public String getClassNd() {
+        return classNd;
     }
 
-    public void setClassid(String classid) {
-        this.classid = classid == null ? null : classid.trim();
+    public void setClassNd(String classNd) {
+        this.classNd = classNd;
     }
 
     public String getKind() {
@@ -40,7 +40,7 @@ public class Datasource {
     }
 
     public void setKind(String kind) {
-        this.kind = kind == null ? null : kind.trim();
+        this.kind = kind;
     }
 
     public String getConfig() {
@@ -48,6 +48,6 @@ public class Datasource {
     }
 
     public void setConfig(String config) {
-        this.config = config == null ? null : config.trim();
+        this.config = config;
     }
 }

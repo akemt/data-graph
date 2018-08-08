@@ -1,33 +1,33 @@
 package com.hiekn.plantdata.Entity;
 
 public class Synonym {
-    private String synid;
+    private String synId;
 
-    private String codeid;
+    private String codeId;
 
-    private String synname;
+    private String synName;
 
-    public String getSynid() {
-        return synid;
+    public String getSynId() {
+        return synId;
     }
 
-    public void setSynid(String synid) {
-        this.synid = synid == null ? null : synid.trim();
+    public void setSynId(String synId) {
+        this.synId = synId;
     }
 
-    public String getCodeid() {
-        return codeid;
+    public String getCodeId() {
+        return codeId;
     }
 
-    public void setCodeid(String codeid) {
-        this.codeid = codeid == null ? null : codeid.trim();
+    public void setCodeId(String codeId) {
+        this.codeId = codeId;
     }
 
-    public String getSynname() {
-        return synname;
+    public String getSynName() {
+        return synName;
     }
 
-    public void setSynname(String synname) {
-        this.synname = synname == null ? null : synname.trim();
+    public void setSynName(String synName) {
+        this.synName = synName;
     }
 }

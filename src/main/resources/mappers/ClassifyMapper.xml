@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hiekn.plantdata.mapper.ClassifyMapper" >
   <resultMap id="BaseResultMap" type="com.hiekn.plantdata.Entity.Classify" >
-    <id column="CLASSID" property="classid" jdbcType="VARCHAR" />
-    <result column="CLASSNAME" property="classname" jdbcType="VARCHAR" />
+    <id column="CLASSID" property="classId" jdbcType="VARCHAR" />
+    <result column="CLASSNAME" property="className" jdbcType="VARCHAR" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from CLASSIFY
@@ -23,8 +23,8 @@
     from CLASSIFY
     where CLASSID = #{classid,jdbcType=VARCHAR}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select CLASSID, CLASSNAME
+  <select id="selectAll" resultType="java.util.HashMap" >
+    select CLASSID as "classId", CLASSNAME as "className"
     from CLASSIFY
   </select>
 </mapper>
