@@ -4,10 +4,11 @@ import com.hiekn.plantdata.Entity.Synonym;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface SynonymMapper {
-    int deleteByPrimaryKey(String synid);
+    int deleteByPrimaryKey(String synId);
 
     int insert(Synonym record);
 
@@ -16,4 +17,7 @@ public interface SynonymMapper {
     List<Synonym> selectAll();
 
     int updateByPrimaryKey(Synonym record);
+
+    List<Map<String,Object>> getSynListByCodeId(String codeId);
+
 }

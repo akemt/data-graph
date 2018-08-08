@@ -4,6 +4,7 @@ import com.hiekn.plantdata.Entity.Datasource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface DatasourceMapper {
@@ -16,4 +17,6 @@ public interface DatasourceMapper {
     List<Datasource> selectAll();
 
     int updateByPrimaryKey(Datasource record);
+
+    List<Map<String,Object>> getSynImportedDatasourece(String classId);
 }

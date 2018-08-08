@@ -35,4 +35,10 @@
     select DATASOURCEID, DATASOURCENAME, CLASSID, KIND, CONFIG
     from DATASOURCE
   </select>
+
+  <select id="getSynImportedDatasourece" resultType="java.util.HashMap" >
+    select DATASOURCEID as "datasourceId", DATASOURCENAME as "datasourceName"
+    from DATASOURCE
+    WHERE CLASSID = #{0} and KIND = 'syn'
+  </select>
 </mapper>

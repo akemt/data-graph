@@ -7,28 +7,33 @@
     <result column="SYNNAME" property="synName" jdbcType="VARCHAR" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from SYNONYM
-    where SYNID = #{synid,jdbcType=VARCHAR}
+    delete from SYNONYMS
+    where SYNID = #{synId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hiekn.plantdata.Entity.Synonym" >
-    insert into SYNONYM (SYNID, CODEID, SYNNAME
+    insert into SYNONYMS (SYNID, CODEID, SYNNAME
       )
-    values (#{synid,jdbcType=VARCHAR}, #{codeid,jdbcType=VARCHAR}, #{synname,jdbcType=VARCHAR}
+    values (#{synId,jdbcType=VARCHAR}, #{codeId,jdbcType=VARCHAR}, #{synName,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.hiekn.plantdata.Entity.Synonym" >
-    update SYNONYM
-    set CODEID = #{codeid,jdbcType=VARCHAR},
-      SYNNAME = #{synname,jdbcType=VARCHAR}
-    where SYNID = #{synid,jdbcType=VARCHAR}
+    update SYNONYMS
+    set  SYNNAME = #{synName,jdbcType=VARCHAR}
+    where SYNID = #{synId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select SYNID, CODEID, SYNNAME
-    from SYNONYM
+    from SYNONYMS
     where SYNID = #{synid,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select SYNID, CODEID, SYNNAME
-    from SYNONYM
+    from SYNONYMS
+  </select>
+
+  <select id="getSynListByCodeId" resultType="java.util.HashMap" >
+    select SYNID as "synId", SYNNAME as "synName"
+    from SYNONYMS
+    WHERE CODEID = #{0}
   </select>
 </mapper>
