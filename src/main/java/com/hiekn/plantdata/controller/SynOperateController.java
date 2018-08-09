@@ -1,11 +1,12 @@
 package com.hiekn.plantdata.controller;
 
+import com.hiekn.plantdata.Entity.SqlConfig;
 import com.hiekn.plantdata.common.Result;
 import com.hiekn.plantdata.infra.SynOperateService;
-import com.hiekn.plantdata.infra.SynonymService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,5 +81,22 @@ public class SynOperateController {
         return Result.success(list, 200, "请求成功!");
     }
 
+    /**
+     * 读取字段
+     *
+     * @param sqlConfig
+     * @return
+     */
+    @PostMapping(value = "/getColumns")
+    @ResponseBody
+    public Result<List<String>> getColumns(SqlConfig sqlConfig) {
 
+        List<String> list = new ArrayList<>();
+        try {
+            list = synOperateService.getColumns(sqlConfig);
+            return Result.success(list, 200, "请求成功");
+        } catch (SQLException e) {
+            return Result.failure(null);
+        }
+    }
 }

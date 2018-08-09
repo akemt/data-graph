@@ -1,16 +1,16 @@
 package com.hiekn.plantdata.infra.impl;
 
-import com.hiekn.plantdata.Entity.Code;
-import com.hiekn.plantdata.infra.SynClassService;
+import com.hiekn.plantdata.Entity.SqlConfig;
 import com.hiekn.plantdata.infra.SynOperateService;
 import com.hiekn.plantdata.mapper.CodeMapper;
 import com.hiekn.plantdata.mapper.NomatchMapper;
 import com.hiekn.plantdata.mapper.SynonymMapper;
+import com.hiekn.plantdata.util.JdbcUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +87,32 @@ public class SynOperateServiceImpl implements SynOperateService {
             list = synonymMapper.searchSynNameInfo(searchStr);
         }
         return list;
+    }
+
+    @Override
+    public List<String> getColumns(SqlConfig sqlConfig) throws SQLException {
+        List<String> result = new ArrayList<>();
+
+        Connection conn = JdbcUtils.getConn(sqlConfig, "oracle.jdbc.driver.OracleDriver");
+        String sql = sqlConfig.getSql();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = (PreparedStatement) conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            for (int i = 0; i < rsmd.getColumnCount(); i++) {
+                result.add(rsmd.getColumnName(i + 1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            rs.close();
+            pstmt.close();
+            conn.close();
+        }
+        return result;
     }
 
 }
