@@ -33,4 +33,26 @@
     select NOMATCHID, CLASSID, DATASOURCEID, NOMATCHNAME
     from NOMATCH
   </select>
+
+  <select id="getNomatchList" resultType="java.util.HashMap" >
+   select a.CLASSID as "classId",a.CLASSNAME as "className",count(b.CLASSID) as "count"
+   from CLASSIFY a  left join DATASOURCE b on a.CLASSID=b.CLASSID
+   GROUP BY a.CLASSID,a.CLASSNAME
+  </select>
+
+  <select id="getNomatchInfoCountByClass" resultType="java.lang.Integer" >
+    select count(distinct DATASOURCEID)
+    from NOMATCH
+    where CLASSID = #{0}
+  </select>
+
+  <select id="getNomatchInfoList" parameterType="Map" resultType="java.util.HashMap" >
+    select a2.* from (
+		select a1.*,rownum rn from(
+		select a.DATASOURCEID as "datasourceId", b.DATASOURCENAME as "datasourceName",count(a.DATASOURCEID) as "count"
+    from NOMATCH a LEFT JOIN DATASOURCE b on a.DATASOURCEID = b.DATASOURCEID
+		where a.CLASSID = #{classId}
+		GROUP BY a.DATASOURCEID,b.DATASOURCENAME) a1
+		) a2 where rn between #{startNum} and #{endNum}
+  </select>
 </mapper>

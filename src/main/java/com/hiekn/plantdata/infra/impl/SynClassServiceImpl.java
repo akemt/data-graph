@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Transactional
 @Slf4j
 public class SynClassServiceImpl implements SynClassService {
 

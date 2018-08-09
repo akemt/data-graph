@@ -49,6 +49,5 @@
       AND CODENAME like concat(concat('%',#{searchStr}),'%')
     </if>
     ) a1 where rn between #{startNum} and #{endNum}
-
   </select>
 </mapper>
