@@ -36,4 +36,22 @@
     from SYNONYMS
     WHERE CODEID = #{0}
   </select>
+
+  <select id="getSynCountByName" resultType="java.lang.Integer" >
+    select count(*)
+    from SYNONYMS
+    WHERE SYNNAME like concat(concat('%',#{0}),'%')
+  </select>
+
+  <select id="searchCodeNameInfo" resultType="java.util.HashMap" >
+    select CLASSNAME as "className",CLASSID as "classId",CODEID as "codeId",CODE as "code",CODENAME as "codeName",SYNNAME as "synName"
+    from SYNTABLE
+    WHERE CODENAME like concat(concat('%',#{0}),'%')
+  </select>
+
+  <select id="searchSynNameInfo" resultType="java.util.HashMap" >
+    select CLASSNAME as "className",CLASSID as "classId",CODEID as "codeId",CODE as "code",CODENAME as "codeName",SYNNAME as "synName"
+    from SYNTABLE
+    WHERE SYNNAME like concat(concat('%',#{0}),'%')
+  </select>
 </mapper>

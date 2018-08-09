@@ -8,4 +8,8 @@ public interface SynOperateService {
 
     Map<String,Object> getNomatchInfo(String classId,int page);
 
+    List<Map<String,Object>> getSearchCount(String searchStr);
+
+    List<Map<String,Object>> getSearchResult(String searchStr,String type);
+
 }

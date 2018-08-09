@@ -32,6 +32,7 @@ public class SynClassServiceImpl implements SynClassService {
     return classifyMapper.selectAll();
     }
 
+    @Override
     public Map<String,Object> getCodeList(String classId,String searchStr,int page){
         Map<String,Object> map = new HashMap<>();
         int pageSize = 10;

@@ -50,4 +50,10 @@
     </if>
     ) a1 where rn between #{startNum} and #{endNum}
   </select>
+
+  <select id="getCodeCountByName" resultType="java.lang.Integer" >
+    select count(*)
+    from CODE
+    WHERE CODENAME like concat(concat('%',#{0}),'%')
+  </select>
 </mapper>

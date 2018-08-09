@@ -50,4 +50,35 @@ public class SynOperateController {
         map = synOperateService.getNomatchInfo(classId,page);
         return Result.success(map, 200, "请求成功!");
     }
+
+    /**
+     * 搜索页 返回搜索结果数量
+     * @param searchStr
+     * @return
+     */
+    @GetMapping(value = "/search/count")
+    @ResponseBody
+    public Result getSearchCount(@RequestParam(value = "searchStr",required = false) String searchStr) {
+
+        List<Map<String,Object>> list = new ArrayList<>();
+        list = synOperateService.getSearchCount(searchStr);
+        return Result.success(list, 200, "请求成功!");
+    }
+
+    /**
+     * 搜索页 返回搜索结果数量
+     * @param type
+     * @param searchStr
+     * @return
+     */
+    @GetMapping(value = "/search")
+    @ResponseBody
+    public Result getSearchResult(@RequestParam(value = "searchStr",required = false) String searchStr,@RequestParam(value = "type") String type) {
+
+        List<Map<String,Object>> list = new ArrayList<>();
+        list = synOperateService.getSearchResult(searchStr,type);
+        return Result.success(list, 200, "请求成功!");
+    }
+
+
 }
