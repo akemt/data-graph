@@ -7,7 +7,7 @@ public class Nomatch {
 
     private String datasourceId;
 
-    private String nomatchname;
+    private String nomatchName;
 
     public String getNomatchId() {
         return nomatchId;
@@ -33,11 +33,11 @@ public class Nomatch {
         this.datasourceId = datasourceId;
     }
 
-    public String getNomatchname() {
-        return nomatchname;
+    public String getNomatchName() {
+        return nomatchName;
     }
 
-    public void setNomatchname(String nomatchname) {
-        this.nomatchname = nomatchname;
+    public void setNomatchName(String nomatchName) {
+        this.nomatchName = nomatchName;
     }
 }

@@ -5,16 +5,16 @@
     <id column="NOMATCHID" property="nomatchId" jdbcType="VARCHAR" />
     <result column="CLASSID" property="classId" jdbcType="VARCHAR" />
     <result column="DATASOURCEID" property="datasourceId" jdbcType="VARCHAR" />
-    <result column="NOMATCHNAME" property="nomatchname" jdbcType="VARCHAR" />
+    <result column="NOMATCHNAME" property="nomatchName" jdbcType="VARCHAR" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from NOMATCH
     where NOMATCHID = #{nomatchid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hiekn.plantdata.Entity.Nomatch" >
-    insert into NOMATCH (NOMATCHID, CLASSID, DATASOURCEID, 
+    insert into NOMATCH (NOMATCHID, CLASSID, DATASOURCEID,
       NOMATCHNAME)
-    values (#{nomatchid,jdbcType=VARCHAR}, #{classid,jdbcType=VARCHAR}, #{datasourceid,jdbcType=VARCHAR}, 
+    values (#{nomatchid,jdbcType=VARCHAR}, #{classid,jdbcType=VARCHAR}, #{datasourceid,jdbcType=VARCHAR},
       #{nomatchname,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.hiekn.plantdata.Entity.Nomatch" >
@@ -54,5 +54,11 @@
 		where a.CLASSID = #{classId}
 		GROUP BY a.DATASOURCEID,b.DATASOURCENAME) a1
 		) a2 where rn between #{startNum} and #{endNum}
+  </select>
+
+  <select id="getMatchCountByClassList" parameterType="Map" resultMap="BaseResultMap" >
+    select NOMATCHID, CLASSID, DATASOURCEID, NOMATCHNAME
+    from NOMATCH
+    WHERE DATASOURCEID = #{datasourceId}
   </select>
 </mapper>

@@ -23,4 +23,6 @@ public interface NomatchMapper {
     int getNomatchInfoCountByClass(String classId);
 
     List<Map<String,Object>> getNomatchInfoList(Map<String,Object> condition);
+
+    List<Nomatch> getMatchCountByClassList(Map<String,Object> condition);
 }
