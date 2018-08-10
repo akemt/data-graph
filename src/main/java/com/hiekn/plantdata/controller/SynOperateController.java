@@ -91,12 +91,12 @@ public class SynOperateController {
     @ResponseBody
     public Result<List<String>> getColumns(SqlConfig sqlConfig) {
 
-        List<String> list = new ArrayList<>();
+        List<String> list;
         try {
             list = synOperateService.getColumns(sqlConfig);
             return Result.success(list, 200, "请求成功");
         } catch (SQLException e) {
-            return Result.failure(null);
+            return Result.failure(null, "连接第三方数据源异常");
         }
     }
 }
