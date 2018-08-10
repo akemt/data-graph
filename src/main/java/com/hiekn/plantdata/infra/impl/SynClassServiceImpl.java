@@ -1,12 +1,15 @@
 package com.hiekn.plantdata.infra.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hiekn.plantdata.Entity.Classify;
 import com.hiekn.plantdata.Entity.Code;
+import com.hiekn.plantdata.Entity.Datasource;
 import com.hiekn.plantdata.Entity.SqlConfig;
 import com.hiekn.plantdata.common.UUIDUtil;
 import com.hiekn.plantdata.infra.SynClassService;
 import com.hiekn.plantdata.mapper.ClassifyMapper;
 import com.hiekn.plantdata.mapper.CodeMapper;
+import com.hiekn.plantdata.mapper.DatasourceMapper;
 import com.hiekn.plantdata.util.JdbcUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,9 @@ public class SynClassServiceImpl implements SynClassService {
 
     @Autowired
     private CodeMapper codeMapper;
+
+    @Autowired
+    private DatasourceMapper datasourceMapper;
 
     @Override
     public List<Classify> getClassList() {
@@ -87,13 +93,21 @@ public class SynClassServiceImpl implements SynClassService {
     }
 
     @Override
-    public int insertCodes(String className, Map<String, String> dataMap) {
+    public int insertCodes(SqlConfig sqlConfig, String className, Map<String, String> dataMap) {
         // 码表大类表中插入一条数据
         Classify classify = new Classify();
         String classId = UUIDUtil.createUUID();
         classify.setClassId(classId);
         classify.setClassName(className);
         classifyMapper.insert(classify);
+
+        // 保存数据源
+        Datasource datasource = new Datasource();
+        datasource.setDatasourceId(UUIDUtil.createUUID());
+        datasource.setDatasourceName(className);
+        datasource.setClassId(classId);
+        datasource.setConfig(JSONObject.toJSONString(sqlConfig));
+        datasourceMapper.insert(datasource);
 
         // 在码表中批量插入数据
         for (String codeColumn : dataMap.keySet()) {

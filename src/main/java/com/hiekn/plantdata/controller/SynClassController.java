@@ -80,7 +80,7 @@ public class SynClassController {
         try {
             // 先获取源数据，再批量插入新数据
             Map<String, String> map = synClassService.getSourceData(sqlConfig, codeColumn, valueColumn);
-            synClassService.insertCodes(name, map);
+            synClassService.insertCodes(sqlConfig, name, map);
         } catch (SQLException e) {
             return Result.failure(null, "批量导入码表失败。" + e.getMessage());
         }

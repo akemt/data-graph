@@ -28,5 +28,5 @@ public interface SynClassService {
      * @param dataMap
      * @return
      */
-    int insertCodes(String className, Map<String, String> dataMap);
+    int insertCodes(SqlConfig sqlConfig, String className, Map<String, String> dataMap);
 }

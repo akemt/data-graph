@@ -10,26 +10,26 @@
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from DATASOURCE
-    where DATASOURCEID = #{datasourceid,jdbcType=VARCHAR}
+    where DATASOURCEID = #{datasourceId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hiekn.plantdata.Entity.Datasource" >
     insert into DATASOURCE (DATASOURCEID, DATASOURCENAME, CLASSID, 
       KIND, CONFIG)
-    values (#{datasourceid,jdbcType=VARCHAR}, #{datasourcename,jdbcType=VARCHAR}, #{classid,jdbcType=VARCHAR}, 
+    values (#{datasourceId,jdbcType=VARCHAR}, #{datasourceName,jdbcType=VARCHAR}, #{classId,jdbcType=VARCHAR},
       #{kind,jdbcType=VARCHAR}, #{config,jdbcType=CLOB})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.hiekn.plantdata.Entity.Datasource" >
     update DATASOURCE
-    set DATASOURCENAME = #{datasourcename,jdbcType=VARCHAR},
-      CLASSID = #{classid,jdbcType=VARCHAR},
+    set DATASOURCENAME = #{datasourceName,jdbcType=VARCHAR},
+      CLASSID = #{classId,jdbcType=VARCHAR},
       KIND = #{kind,jdbcType=VARCHAR},
       CONFIG = #{config,jdbcType=CLOB}
-    where DATASOURCEID = #{datasourceid,jdbcType=VARCHAR}
+    where DATASOURCEID = #{datasourceId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select DATASOURCEID, DATASOURCENAME, CLASSID, KIND, CONFIG
     from DATASOURCE
-    where DATASOURCEID = #{datasourceid,jdbcType=VARCHAR}
+    where DATASOURCEID = #{datasourceId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select DATASOURCEID, DATASOURCENAME, CLASSID, KIND, CONFIG
