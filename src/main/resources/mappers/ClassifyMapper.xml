@@ -23,8 +23,8 @@
     from CLASSIFY
     where CLASSID = #{classid,jdbcType=VARCHAR}
   </select>
-  <select id="selectAll" resultType="java.util.HashMap" >
-    select CLASSID as "classId", CLASSNAME as "className"
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select CLASSID, CLASSNAME
     from CLASSIFY
   </select>
 
