@@ -476,4 +476,24 @@ public class EntityServiceImpl implements EntityService {
         List<Long> longList = ArrayUtils.getMapListToListLong(mapList);
         return longList;
     }
+
+    //当前用户的首页信息
+          public Map<String, Object> getHomeInfo(String usrID) {
+            Map<String, Object> map = new HashMap<>();
+            //实体类总数
+            int entityClassCount = entityMapper.getEntityClassCountByUerId(usrID);
+            //实体总数
+            int entityCount = entityMapper.getEntityCountByUerId(usrID);
+            map.put("agreementEntity", entityClassCount);
+            map.put("recordEntity", entityCount);
+            //实体编辑历史
+            List<Map<String, Object>> historyEntity = new ArrayList<>();
+            historyEntity = entityMapper.getHistoryEntityCount(usrID);
+            map.put("historyEntity", historyEntity);
+            //词云(最近创建的100条实体)
+            List<Map<String, Object>> newRecordEntity = new ArrayList<>();
+            newRecordEntity = entityMapper.getNewRecordEntity(usrID);
+            map.put("newRecordEntity", newRecordEntity);
+            return map;
+    }
 }

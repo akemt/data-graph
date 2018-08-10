@@ -88,4 +88,11 @@ public interface EntityService {
      * @return
      */
     public List<Long>  getUsrGraphNodesList(String usrID);
+
+    /**
+     * 根据当前用户，获取首页信息
+     * @param usrID
+     * @return
+     */
+    Map<String,Object> getHomeInfo(String usrID);
 }
