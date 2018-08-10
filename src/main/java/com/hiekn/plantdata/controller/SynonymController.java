@@ -88,7 +88,7 @@ public class SynonymController {
         if (synonymService.manualUpdateSyn(synonym)>0) {
             return Result.success("", 200, "修改成功!");
         }else {
-            return Result.success("",200,"修改!");
+            return Result.success("",200,"修改失败!");
         }
     }
 
