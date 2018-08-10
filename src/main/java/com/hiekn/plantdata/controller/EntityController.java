@@ -149,7 +149,7 @@ public class EntityController {
     @ResponseBody
     public Result saveEntitysInfo(@RequestParam(value = "name") String eClassname,@RequestParam(value = "id") long mID,HttpSession session) {
         String userId = (String) session.getAttribute("userId");
-        Map<String, Object> map = entityService.saveEntitysInfo(userId,eClassname,mID,"");
+        Map<String, Object> map = entityService.saveEntitysInfo(userId,eClassname,mID);
 
         if (map.get("id") !=null) {
             return Result.success(map, 200, "保存成功!");
@@ -203,6 +203,22 @@ public class EntityController {
             return Result.success("", 303, "此实体类下已经存在该实体！");
         }
     }
+
+    /**
+     * 获得首页信息
+     *
+     * @param session
+     * @return
+     */
+    @GetMapping(value = "/home")
+    @ResponseBody
+    public Result getHomeInfo(HttpSession session) {
+
+        String usrID = (String) session.getAttribute("userId");
+        Map<String, Object> mapList = entityService.getHomeInfo(usrID);
+        return Result.success(mapList, 200, "请求成功!");
+    }
+
 
     /**
      * 批量导入实体

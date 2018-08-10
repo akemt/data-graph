@@ -36,7 +36,7 @@
 
     <!--保存实体内容-->
     <insert id="saveEntityInfo" parameterType="com.hiekn.plantdata.Entity.UsrEntity">
-        INSERT INTO UsrEntity(EntSID,EntName,usrSID,EntTmpl,EntTypeSID,"DESC",CREATEDATE)
+        INSERT INTO UsrEntity(EntSID,EntName,usrSID,EntTmpl,EntTypeSID,Desc,CREATEDATE)
         VALUES(#{EntSID,jdbcType=VARCHAR},#{EntName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{EntTmpl,jdbcType=INTEGER},#{EntTypeSID,jdbcType=VARCHAR},#{Desc,jdbcType=VARCHAR},#{CreateDate,jdbcType=DATE})
     </insert>
     <!--更新实体内容-->
@@ -108,7 +108,7 @@
 
     <!--根据条件查询，该用户下的实体类型-->
     <select id="getUsrGraphEntityListByName"  parameterType="java.lang.String" resultType="java.util.HashMap">
-        SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  and u.EntName=#{1}  and u.EntTypeSID=#{2} ORDER BY EntSID
+        SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  and u.EntName=#{1} ORDER BY EntSID
     </select>
 
     <!--当前用户、此实体类下面的实体-->
@@ -120,5 +120,37 @@
     <!--根据实体类ID,查询此实体类下面的实体信息-->
     <select id="getGraphEntityListByEntTypeIdAndName"  parameterType="java.lang.String"  resultType="java.util.HashMap">
         SELECT * from UsrEntity u where u.EntTypeSID=#{0}  and u.EntName=#{1}
+    </select>
+
+    <!--获取当前用户实体类总数-->
+    <select id="getEntityClassCountByUerId"  parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) from UsrEntity u where u.usrSID=#{0}
+    </select>
+
+    <!--获取当前用户实体总数-->
+    <select id="getEntityCountByUerId"  parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) from ENTITYTYPE u where u.usrSID=#{0}
+    </select>
+
+    <!--获取近30天的创建实体数量-->
+    <select id="getHistoryEntityCount"  parameterType="java.lang.String" resultType="java.util.HashMap">
+
+        select a.data_time as "date",nvl(b.count,0) as "value" from
+        (select to_char(sysdate-rownum+1,'yyyy-mm-dd') data_time from dual connect by level <![CDATA[ <= ]]> 30) a
+        LEFT JOIN  (SELECT TO_CHAR(T.CREATEDATE,'YYYY-MM-DD') data_time  ,COUNT(*)    COUNT
+
+        FROM   USRENTITY T
+
+        WHERE T.CREATEDATE > SYSDATE-30 and T.USRSID = #{0}
+
+        GROUP BY TO_CHAR(T.CREATEDATE,'YYYY-MM-DD')   --根据日期来分组
+
+        ) b on a.data_time = b.data_time
+        ORDER BY TO_DATE(a.data_time,'YYYY-MM-DD') DESC NULLS LAST --根据日期排序
+    </select>
+
+    <!--获取近100条实体 value赋值1-->
+    <select id="getNewRecordEntity"  parameterType="java.lang.String" resultType="java.util.HashMap">
+        select ENTNAME as "name", 1 as "value" from USRENTITY where rownum <![CDATA[ < ]]> 101 and USRSID = #{0} ORDER BY CREATEDATE DESC
     </select>
 </mapper>

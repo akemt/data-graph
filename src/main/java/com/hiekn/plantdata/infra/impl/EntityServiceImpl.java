@@ -364,10 +364,10 @@ public class EntityServiceImpl implements EntityService {
     }
 
     @Override
-    public Map<String, Object> saveEntitysInfo(String userId, String eClassname,long mID,String desc) {
+    public Map<String, Object> saveEntitysInfo(String userId, String eClassname,long mID) {
 
         //验证当前用户下，是否存在该名称
-        List<Map<String,String>> mapList = entityMapper.getUsrGraphEntityListByName(userId,eClassname,String.valueOf(mID));
+        List<Map<String,String>> mapList = entityMapper.getUsrGraphEntityListByName(userId,eClassname);
 
         //查看实体类label名是否存在
 //        List<ResultheadData> resultheadDataList = entitysRepository.findEntitysList(eClassname);
@@ -392,8 +392,6 @@ public class EntityServiceImpl implements EntityService {
             entityType.setUsrSID(userId);
             entityType.setEntTmpl("");
             entityType.setEntTypeSID(String.valueOf(mID));
-            entityType.setDesc(desc);
-            entityType.setCreateDate(new Date());
             entityMapper.saveEntityInfo(entityType);
         }
         return map;
@@ -605,5 +603,25 @@ public class EntityServiceImpl implements EntityService {
                 entityMapper.saveEntRelInfo(entRelType);
             }
         }
+    }
+
+    //当前用户的首页信息
+          public Map<String, Object> getHomeInfo(String usrID) {
+            Map<String, Object> map = new HashMap<>();
+            //实体类总数
+            int entityClassCount = entityMapper.getEntityClassCountByUerId(usrID);
+            //实体总数
+            int entityCount = entityMapper.getEntityCountByUerId(usrID);
+            map.put("agreementEntity", entityClassCount);
+            map.put("recordEntity", entityCount);
+            //实体编辑历史
+            List<Map<String, Object>> historyEntity = new ArrayList<>();
+            historyEntity = entityMapper.getHistoryEntityCount(usrID);
+            map.put("historyEntity", historyEntity);
+            //词云(最近创建的100条实体)
+            List<Map<String, Object>> newRecordEntity = new ArrayList<>();
+            newRecordEntity = entityMapper.getNewRecordEntity(usrID);
+            map.put("newRecordEntity", newRecordEntity);
+            return map;
     }
 }

@@ -110,7 +110,7 @@ public interface EntityMapper {
      * @param usrID * @param EntName
      * @return
      */
-    List<Map<String, String>> getUsrGraphEntityListByName(String usrID, String EntName,String mID);
+    List<Map<String, String>> getUsrGraphEntityListByName(String usrID, String EntName);
 
 
     /**
@@ -121,7 +121,6 @@ public interface EntityMapper {
      * @return
      */
     List<Map<String, String>> getUsrGraphEntityListByUsrIDAndEntTypeID(String usrID, String entTypeID);
-
 
 
     UsrEntity getUsrEntityInfoByEntSID(String EntSID);
@@ -135,4 +134,17 @@ public interface EntityMapper {
      * @return
      */
     List<Map<String, String>> getGraphEntityListByEntTypeIdAndName(String entTypeID, String EntName);
+
+    //获取当前用户实体类总数
+    int getEntityClassCountByUerId(String usrID);
+
+    //获取当前用户实体总数
+    int getEntityCountByUerId(String usrID);
+
+    //获取近30天的创建实体数量
+    List<Map<String,Object>> getHistoryEntityCount(String usrID);
+
+    //获取近100条实体 value赋值1
+    List<Map<String,Object>> getNewRecordEntity(String usrID);
+
 }

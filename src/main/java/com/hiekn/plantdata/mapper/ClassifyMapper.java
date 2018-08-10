@@ -14,7 +14,7 @@ public interface ClassifyMapper {
 
     Classify selectByPrimaryKey(String classid);
 
-    List<Map<String,Object>> selectAll();
+    List<Classify> selectAll();
 
     int updateByPrimaryKey(Classify record);
 

@@ -9,25 +9,25 @@
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from CODE
-    where CODEID = #{codeid,jdbcType=VARCHAR}
+    where CODEID = #{codeId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hiekn.plantdata.Entity.Code" >
     insert into CODE (CODEID, CLASSID, CODE, 
       CODENAME)
-    values (#{codeid,jdbcType=VARCHAR}, #{classid,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
-      #{codename,jdbcType=VARCHAR})
+    values (#{codeId,jdbcType=VARCHAR}, #{classId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+      #{codeName,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.hiekn.plantdata.Entity.Code" >
     update CODE
-    set CLASSID = #{classid,jdbcType=VARCHAR},
+    set CLASSID = #{classId,jdbcType=VARCHAR},
       CODE = #{code,jdbcType=VARCHAR},
-      CODENAME = #{codename,jdbcType=VARCHAR}
-    where CODEID = #{codeid,jdbcType=VARCHAR}
+      CODENAME = #{codeName,jdbcType=VARCHAR}
+    where CODEID = #{codeId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select CODEID, CLASSID, CODE, CODENAME
     from CODE
-    where CODEID = #{codeid,jdbcType=VARCHAR}
+    where CODEID = #{codeId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select CODEID, CLASSID, CODE, CODENAME
@@ -44,7 +44,7 @@
     select a1.* from (
     select CODEID, CLASSID, CODE, CODENAME,rownum rn
     from CODE
-    WHERE CLASSID = #{classId}
+    WHERE CLASSID = #{classId,jdbcType=VARCHAR}
     <if test="searchStr != null">
       AND CODENAME like concat(concat('%',#{searchStr}),'%')
     </if>

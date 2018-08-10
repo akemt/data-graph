@@ -5,7 +5,7 @@ public class Datasource {
 
     private String datasourceName;
 
-    private String classNd;
+    private String classId;
 
     private String kind;
 
@@ -27,12 +27,12 @@ public class Datasource {
         this.datasourceName = datasourceName;
     }
 
-    public String getClassNd() {
-        return classNd;
+    public String getClassId() {
+        return classId;
     }
 
-    public void setClassNd(String classNd) {
-        this.classNd = classNd;
+    public void setClassId(String classId) {
+        this.classId = classId;
     }
 
     public String getKind() {
