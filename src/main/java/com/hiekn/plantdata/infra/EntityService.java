@@ -13,7 +13,7 @@ public interface EntityService {
      * @param searchStr
      * @return
      */
-    public List<Map<String, Object>> getEntitysList(String userId,String searchStr, Integer iPage);
+    public List<Map<String, Object>> getEntitysList(String userId,String searchStr,String modelId, Integer iPage);
 
 
     /**

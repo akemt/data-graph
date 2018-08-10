@@ -21,6 +21,13 @@ public interface EntityMapper {
     void saveEntityInfo(UsrEntity entityType);
 
     /**
+     * 更新实体
+     *
+     * @param entityType
+     */
+    void updateEntityInfo(UsrEntity entityType);
+
+    /**
      * 保存实体-关系
      *
      * @param entRelType
@@ -106,4 +113,7 @@ public interface EntityMapper {
      * @return
      */
     List<Map<String, String>> getUsrGraphEntityListByUsrIDAndEntTypeID(String usrID, String entTypeID);
+
+
+    UsrEntity getUsrEntityInfoByEntSID(String EntSID);
 }

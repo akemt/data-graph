@@ -105,6 +105,16 @@ public interface EntitysRepository  extends GraphRepository<ResultheadData> {
 
 
     /**
+     * 根据名称查询实体类Level3层 下面所有节点
+     * @param name
+     * @param limit
+     * @return
+     */
+    @Query("MATCH path = (n:level3:实体) where  id(n)  in {en_id} and n.parentId= {parentId} and n.name =~{name} RETURN nodes(path) as nodes LIMIT {limit};")
+    List<ResultheadData> findEntitysListByParentId(@Param("en_id") long[] en_id,@Param("parentId") long parentId, @Param("name") String name, @Param("limit") Integer limit);
+
+
+    /**
      * 根据关系ID ，删除关系
      * @param id
      */

@@ -42,13 +42,18 @@ public class EntityServiceImpl implements EntityService {
     private EntityService entityService;
 
     @Override
-    public List<Map<String, Object>> getEntitysList(String userId,String searchStr, Integer iPage) {
+    public List<Map<String, Object>> getEntitysList(String userId,String searchStr,String modelId, Integer iPage) {
 
         //查询当前用户下的所有节点
         List<Long>  longList = entityService.getUsrGraphNodesList(userId);
 
         String kws = "." + "*" + searchStr + "." + "*";
-        List<ResultheadData> infoList = entitysRepository.findEntitysList(ArrayUtils.listDataToLong(longList),kws,iPage);
+        List<ResultheadData> infoList = null;
+        if(modelId !=null && !"".equals(modelId)){
+            infoList = entitysRepository.findEntitysListByParentId(ArrayUtils.listDataToLong(longList),Long.valueOf(modelId),kws,iPage);
+        }else {
+            infoList = entitysRepository.findEntitysList(ArrayUtils.listDataToLong(longList),kws,iPage);
+        }
         List<Map<String, Object>> list = this.getResultheadDataList(infoList);
         return list;
     }
@@ -66,6 +71,17 @@ public class EntityServiceImpl implements EntityService {
         if(jsonObject.get("mid") !=null){
             mId = jsonObject.getString("mid");
         }
+
+        //更新desc描述
+        String desc = "";
+        if(jsonObject.get("desc") !=null){
+            desc = jsonObject.getString("desc");
+        }
+        UsrEntity entityType = new UsrEntity();
+        entityType.setEntSID(strId);
+        entityType.setUsrSID(userId);
+        entityType.setDesc(desc);
+        entityMapper.updateEntityInfo(entityType);
 
         String name = jsonObject.getString("name");
 
@@ -182,6 +198,12 @@ public class EntityServiceImpl implements EntityService {
         List<Map<String, Object>> list = this.getResultheadDataList(infoList);
         map.put("id", list.get(0).get("id"));
         map.put("name", list.get(0).get("name"));
+
+        //展示描述
+        UsrEntity usrEntity = entityMapper.getUsrEntityInfoByEntSID(String.valueOf(id));
+        if(usrEntity !=null){
+            map.put("desc", usrEntity.getDesc());
+        }
         long parId = (Integer)list.get(0).get("parentId");
 
         ResultheadData parentNodeinfo = entitysRepository.findEntitysClassInfo(parId);

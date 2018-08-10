@@ -2,6 +2,7 @@ package com.hiekn.plantdata.controller;
 
 import com.hiekn.plantdata.common.Result;
 import com.hiekn.plantdata.common.WebSecurityConfig;
+import com.hiekn.plantdata.infra.EntityClassService;
 import com.hiekn.plantdata.infra.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,9 @@ public class EntityController {
 
 
     @Autowired
+    private EntityClassService entityClassService;
+
+    @Autowired
     private EntityService entityService;
 
     /**
@@ -32,11 +36,11 @@ public class EntityController {
      */
     @GetMapping(value = "entitys")
     @ResponseBody
-    public Result getEntitysList(@RequestParam(value = "searchStr") String searchStr, HttpSession session) {
+    public Result getEntitysList(@RequestParam(value = "searchStr") String searchStr,@RequestParam(value = "modelId") String modelId, HttpSession session) {
         List<Map<String,Object>> mapList = new ArrayList<>();
         if (searchStr != null) {
             String userId = (String) session.getAttribute("userId");
-            mapList = entityService.getEntitysList(userId,searchStr, 25);
+            mapList = entityService.getEntitysList(userId,searchStr,modelId, 1000);
             return Result.success(mapList, 200, "请求成功!");
         } else {
             return Result.success(mapList, 200, "无数据!");
@@ -174,5 +178,19 @@ public class EntityController {
             map.put("nodeID","");
         }
         return Result.success(map, 200, "请求成功!");
+    }
+
+
+    @PostMapping(value = "entitys/classify")
+    @ResponseBody
+    public Result updateEntitysClassify(@RequestParam(value = "name") String eClassname,@RequestParam(value = "id") long mID,HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        Map<String, Object> map = entityService.saveEntitysInfo(userId,eClassname,mID);
+
+        if (map.get("id") !=null) {
+            return Result.success(map, 200, "保存成功!");
+        } else {
+            return Result.success("", 303, "用户名冲突!");
+        }
     }
 }
