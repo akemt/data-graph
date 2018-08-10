@@ -93,6 +93,7 @@ public class SynClassServiceImpl implements SynClassService {
     }
 
     @Override
+    @Transactional
     public int insertCodes(SqlConfig sqlConfig, String className, Map<String, String> dataMap) {
         // 码表大类表中插入一条数据
         Classify classify = new Classify();
