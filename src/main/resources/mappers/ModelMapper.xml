@@ -79,4 +79,9 @@
     <select id="getUsrGraphEntityRelList"  parameterType="java.lang.String" resultType="java.util.HashMap">
         SELECT RtpSID  as id,RtpName from EntRelType u where u.usrSID=#{0} and u.EntSID=#{1} ORDER BY RtpSID
     </select>
+
+    <!--根据条件查询，该用户下的实体类-->
+    <select id="getEntityTypeByusrIDAndName"  parameterType="java.lang.String" resultMap="ModelTypeResultMap">
+        SELECT * from EntityType u where u.usrSID=#{0} and u.EntName=#{1}
+    </select>
 </mapper>

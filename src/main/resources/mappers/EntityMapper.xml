@@ -36,7 +36,7 @@
 
     <!--保存实体内容-->
     <insert id="saveEntityInfo" parameterType="com.hiekn.plantdata.Entity.UsrEntity">
-        INSERT INTO UsrEntity(EntSID,EntName,usrSID,EntTmpl,EntTypeSID,Desc,CREATEDATE)
+        INSERT INTO UsrEntity(EntSID,EntName,usrSID,EntTmpl,EntTypeSID,"DESC",CREATEDATE)
         VALUES(#{EntSID,jdbcType=VARCHAR},#{EntName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{EntTmpl,jdbcType=INTEGER},#{EntTypeSID,jdbcType=VARCHAR},#{Desc,jdbcType=VARCHAR},#{CreateDate,jdbcType=DATE})
     </insert>
     <!--更新实体内容-->
@@ -44,6 +44,13 @@
         update UsrEntity
         set "DESC" = #{Desc,jdbcType=VARCHAR}
         where EntSID = #{EntSID,jdbcType=VARCHAR} and usrSID = #{usrSID,jdbcType=VARCHAR}
+    </update>
+
+    <!--更新实体内容-->
+    <update id="updateEntityInfoByEntIDAndEntTypeID" parameterType="java.lang.String">
+        update UsrEntity
+        set EntTypeSID = #{1}
+        where EntSID = #{0}
     </update>
 
     <select id="getUsrEntityInfoByEntSID" resultMap="EntityTypeResultMap" parameterType="java.lang.String" >
@@ -101,11 +108,17 @@
 
     <!--根据条件查询，该用户下的实体类型-->
     <select id="getUsrGraphEntityListByName"  parameterType="java.lang.String" resultType="java.util.HashMap">
-        SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  and u.EntName=#{1} ORDER BY EntSID
+        SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  and u.EntName=#{1}  and u.EntTypeSID=#{2} ORDER BY EntSID
     </select>
 
     <!--当前用户、此实体类下面的实体-->
     <select id="getUsrGraphEntityListByUsrIDAndEntTypeID"  parameterType="java.lang.String" resultType="java.util.HashMap">
         SELECT EntSID as id,EntName from UsrEntity u where u.usrSID=#{0}  and u.EntTypeSID=#{1} ORDER BY EntSID
+    </select>
+
+
+    <!--根据实体类ID,查询此实体类下面的实体信息-->
+    <select id="getGraphEntityListByEntTypeIdAndName"  parameterType="java.lang.String"  resultType="java.util.HashMap">
+        SELECT * from UsrEntity u where u.EntTypeSID=#{0}  and u.EntName=#{1}
     </select>
 </mapper>

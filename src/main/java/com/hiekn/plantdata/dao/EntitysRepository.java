@@ -5,6 +5,7 @@ import org.neo4j.ogm.annotation.Labels;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * 实体DAO层
  */
+@Repository
 public interface EntitysRepository  extends GraphRepository<ResultheadData> {
 
     /**
@@ -185,5 +187,15 @@ public interface EntitysRepository  extends GraphRepository<ResultheadData> {
      */
     @Query("MATCH path=(p:level3:属性) where  p.name in{attrName}  and id(p) in {attrID} return nodes(path) as nodes")
     List<ResultheadData> findEntityTreeDataByIdAndName(@Param("attrName") String[] attrName,@Param("attrID") long []attrID);
+
+
+    /**
+     * 根据实体ID，更新实体类ID
+     * @param entID
+     * @param enTypeSID
+     * @return
+     */
+    @Query("match (m:实体:level3) where id(m)={entID} set m.parentId={enTypeSID} return id(m)")
+    long updateEntitysInfoByEntIDAndEntTypeSID(@Param("entID") long entID,@Param("enTypeSID") long enTypeSID);
 
 }

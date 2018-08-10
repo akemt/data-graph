@@ -27,6 +27,14 @@ public interface EntityMapper {
      */
     void updateEntityInfo(UsrEntity entityType);
 
+
+    /**
+     * 根据实体ID，更新实体类ID
+     * @param entID
+     * @param EntTypeSid
+     */
+    void updateEntityInfoByEntIDAndEntTypeID(String entID,String EntTypeSid);
+
     /**
      * 保存实体-关系
      *
@@ -102,7 +110,7 @@ public interface EntityMapper {
      * @param usrID * @param EntName
      * @return
      */
-    List<Map<String, String>> getUsrGraphEntityListByName(String usrID, String EntName);
+    List<Map<String, String>> getUsrGraphEntityListByName(String usrID, String EntName,String mID);
 
 
     /**
@@ -115,5 +123,16 @@ public interface EntityMapper {
     List<Map<String, String>> getUsrGraphEntityListByUsrIDAndEntTypeID(String usrID, String entTypeID);
 
 
+
     UsrEntity getUsrEntityInfoByEntSID(String EntSID);
+
+
+    /**
+     * 根据实体类ID,查询此实体类下面的实体信息
+     *
+     * @param entTypeID
+     * * @param EntName
+     * @return
+     */
+    List<Map<String, String>> getGraphEntityListByEntTypeIdAndName(String entTypeID, String EntName);
 }

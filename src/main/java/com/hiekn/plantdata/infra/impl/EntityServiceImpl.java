@@ -5,9 +5,11 @@ import com.hiekn.plantdata.common.TreeBuilder;
 import com.hiekn.plantdata.common.TreeNode;
 import com.hiekn.plantdata.dao.AttributesRepository;
 import com.hiekn.plantdata.dao.EntitysRepository;
+import com.hiekn.plantdata.infra.EntityClassService;
 import com.hiekn.plantdata.infra.EntityService;
 import com.hiekn.plantdata.infra.Neo4jDriverService;
 import com.hiekn.plantdata.mapper.EntityMapper;
+import com.hiekn.plantdata.mapper.ModelMapper;
 import com.hiekn.plantdata.util.ArrayUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.neo4j.ogm.response.model.NodeModel;
@@ -40,6 +42,12 @@ public class EntityServiceImpl implements EntityService {
 
     @Autowired
     private EntityService entityService;
+
+    @Autowired
+    private EntityClassService entityClassService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public List<Map<String, Object>> getEntitysList(String userId,String searchStr,String modelId, Integer iPage) {
@@ -356,10 +364,10 @@ public class EntityServiceImpl implements EntityService {
     }
 
     @Override
-    public Map<String, Object> saveEntitysInfo(String userId, String eClassname,long mID) {
+    public Map<String, Object> saveEntitysInfo(String userId, String eClassname,long mID,String desc) {
 
         //验证当前用户下，是否存在该名称
-        List<Map<String,String>> mapList = entityMapper.getUsrGraphEntityListByName(userId,eClassname);
+        List<Map<String,String>> mapList = entityMapper.getUsrGraphEntityListByName(userId,eClassname,String.valueOf(mID));
 
         //查看实体类label名是否存在
 //        List<ResultheadData> resultheadDataList = entitysRepository.findEntitysList(eClassname);
@@ -384,6 +392,8 @@ public class EntityServiceImpl implements EntityService {
             entityType.setUsrSID(userId);
             entityType.setEntTmpl("");
             entityType.setEntTypeSID(String.valueOf(mID));
+            entityType.setDesc(desc);
+            entityType.setCreateDate(new Date());
             entityMapper.saveEntityInfo(entityType);
         }
         return map;
@@ -475,5 +485,125 @@ public class EntityServiceImpl implements EntityService {
         List<Map<String,String>>  mapList = entityMapper.getUsrGraphNodesList(usrID);
         List<Long> longList = ArrayUtils.getMapListToListLong(mapList);
         return longList;
+    }
+
+    @Transactional
+    @Override
+    public boolean updateEntitysClassify(String userId, long entityId, String entityName, long modelId) {
+        boolean flag = true;
+        //通过entityName，modelId验证此modelId中是否存在entityName同名信息
+        List<Map<String, String>> mapList = entityMapper.getGraphEntityListByEntTypeIdAndName(String.valueOf(modelId),entityName);
+        if(mapList !=null && mapList.size()>0){
+            flag = false;
+            return flag;
+        }
+
+        //更新neo4j
+        entitysRepository.updateEntitysInfoByEntIDAndEntTypeSID(entityId,modelId);
+
+        //更新关系型数据库
+        entityMapper.updateEntityInfoByEntIDAndEntTypeID(String.valueOf(entityId),String.valueOf(modelId));
+
+        return flag;
+    }
+
+    @Override
+    @Transactional
+    public boolean batchImportEntityInfo(String userId, String json) {
+        //默认新建实体类
+        String entTypeName = "未分类实体类";
+
+        //验证当前用户下，是否存在该名称
+        EntityType entityType = modelMapper.getEntityTypeByusrIDAndName(userId, entTypeName);
+        long mID = 0l;
+        if (entityType != null) {//该名称已经存在，不可以新建
+            mID = Long.valueOf(entityType.getEntSID());
+        } else {
+            Map<String, Object> map = entityClassService.saveEntitysClassInfo(userId, entTypeName);
+            mID = (long) map.get("id");
+        }
+
+        JSONArray jsonArrayEntity = JSONArray.fromObject(json);
+
+        if (jsonArrayEntity.size() > 0) {
+            for (int i = 0; i < jsonArrayEntity.size(); i++) {
+
+                String entityName = jsonArrayEntity.getJSONObject(i).getString("name");
+
+                String entityDesc = jsonArrayEntity.getJSONObject(i).getString("desc");
+
+                Map<String, Object> mapEntity = entityService.saveEntitysInfo(userId, entityName, mID, entityDesc);
+
+                if (mapEntity.get("id") == null) {
+                    return false;
+                }
+                long entID = (long) mapEntity.get("id");
+
+                String entityDefine = jsonArrayEntity.getJSONObject(i).getString("define");
+                //将jsonArray字符串转化为JSONArray
+                JSONArray jsonArrayDefine = JSONArray.fromObject(entityDefine);
+
+                String relationName = "实体类_包含_属性";
+                this.batchTreeMenuList(userId, jsonArrayDefine, Long.valueOf(entID), Long.valueOf(entID), entityName, relationName);
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * 递归----获取某个父节点下面的所有子节点
+     *
+     * @param jsonArrayDefine
+     */
+    public void batchTreeMenuList(String userId, JSONArray jsonArrayDefine,long nodeID,long entID,String strRelationName,String relationName) {
+        if (jsonArrayDefine.size() > 0) {
+            for (int i = 0; i < jsonArrayDefine.size(); i++) {
+
+                String jAttrName = jsonArrayDefine.getJSONObject(i).getString("name");
+
+                String jAttrValue = jsonArrayDefine.getJSONObject(i).getString("value");
+
+                log.info("Name: " + jAttrName + ",Value: " + JSONArray.fromObject(jAttrValue).toString());
+                JSONArray jValue = JSONArray.fromObject(jAttrValue);
+                String value = "";
+                for (int k =0;k<jValue.size();k++) {
+                    if(!"".equals(jValue.getString(k))){
+                        value += jValue.getString(k)+",";
+                    }
+                }
+                String strGlobalName = userId+":属性##实体类#"+strRelationName+"$"+jAttrName;
+                //建立节点
+                String strAttrLabels = "MERGE (a:属性:level3 {global_name:'"+strGlobalName+"',name: '"+jAttrName+"',value:'"+value+"',parentId: "+nodeID+"})   RETURN id(a)  as id";
+
+                long ids = neo4jDriverService.saveLabelsReturnID(strAttrLabels);
+                //把属性---保存到关系型数据库
+                UsrEntAttrib entAttribType= new UsrEntAttrib();
+                entAttribType.setAtbSID(String.valueOf(ids));
+                entAttribType.setAtbName(jAttrName);
+                entAttribType.setDtpSID("");
+                entAttribType.setObjSID("");
+                entAttribType.setObjType("");
+                entAttribType.setUntName("");
+                entAttribType.setUsrSID(userId);
+                entAttribType.setEntSID(String.valueOf(entID));
+                entityMapper.saveEntAttrInfo(entAttribType);
+
+
+                //MATCH (n)DETACH DELETE n
+                //建立关系
+                String strAttrRelationships = "match (m) where id(m)="+nodeID+" match (n) where id(n)="+ids+" merge(m)-[r:"+relationName+" {name:'"+relationName+"',from:id(m),to:id(n)}]->(n)  RETURN id(r)  as id";
+                long idRel = neo4jDriverService.saveLabelsReturnID(strAttrRelationships);
+
+                //把关系---保存到关系型数据库
+                UsrEntRel entRelType= new UsrEntRel();
+                entRelType.setRtpSID(String.valueOf(idRel));
+                entRelType.setRtpName(relationName);
+                entRelType.setUsrSID(userId);
+                entRelType.setEntSID(String.valueOf(entID));
+                entRelType.setType("01");
+                entityMapper.saveEntRelInfo(entRelType);
+            }
+        }
     }
 }

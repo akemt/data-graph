@@ -149,12 +149,12 @@ public class EntityController {
     @ResponseBody
     public Result saveEntitysInfo(@RequestParam(value = "name") String eClassname,@RequestParam(value = "id") long mID,HttpSession session) {
         String userId = (String) session.getAttribute("userId");
-        Map<String, Object> map = entityService.saveEntitysInfo(userId,eClassname,mID);
+        Map<String, Object> map = entityService.saveEntitysInfo(userId,eClassname,mID,"");
 
         if (map.get("id") !=null) {
             return Result.success(map, 200, "保存成功!");
         } else {
-            return Result.success("", 303, "用户名冲突!");
+            return Result.success("", 303, "实体名冲突!");
         }
     }
 
@@ -181,16 +181,46 @@ public class EntityController {
     }
 
 
+    /**
+     * 为实体更新实体类
+     * @param entityId
+     * @param entityName
+     * @param modelId
+     * @param session
+     * @return
+     */
     @PostMapping(value = "entitys/classify")
     @ResponseBody
-    public Result updateEntitysClassify(@RequestParam(value = "name") String eClassname,@RequestParam(value = "id") long mID,HttpSession session) {
+    public Result updateEntitysClassify(@RequestParam(value = "entityId") long entityId,
+                                        @RequestParam(value = "entityName") String entityName,
+                                        @RequestParam(value = "modelId") long modelId,HttpSession session) {
         String userId = (String) session.getAttribute("userId");
-        Map<String, Object> map = entityService.saveEntitysInfo(userId,eClassname,mID);
+        boolean flag = entityService.updateEntitysClassify(userId,entityId,entityName,modelId);
 
-        if (map.get("id") !=null) {
-            return Result.success(map, 200, "保存成功!");
+        if (flag) {
+            return Result.success("", 200, "保存成功!");
         } else {
-            return Result.success("", 303, "用户名冲突!");
+            return Result.success("", 303, "此实体类下已经存在该实体！");
         }
     }
+
+    /**
+     * 批量导入实体
+     * @param json
+     * @param session
+     * @return
+     */
+    @PostMapping(value = "import/entitys")
+    @ResponseBody
+    public Result batchImportEntityInfo(@RequestParam(value = "json") String json,HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        boolean flag = entityService.batchImportEntityInfo(userId,json);
+
+        if (flag) {
+            return Result.success("", 200, "保存成功!");
+        } else {
+            return Result.success("", 303, "实体名冲突！");
+        }
+    }
+
 }

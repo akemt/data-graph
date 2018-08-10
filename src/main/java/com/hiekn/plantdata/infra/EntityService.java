@@ -73,7 +73,7 @@ public interface EntityService {
      * @param eClassname
      * @return
      */
-    public Map<String, Object> saveEntitysInfo(String userId, String eClassname,long mID);
+    public Map<String, Object> saveEntitysInfo(String userId, String eClassname,long mID,String desc);
 
     /**
      * 根据当前用户，查询该用户下的实体关系
@@ -88,4 +88,25 @@ public interface EntityService {
      * @return
      */
     public List<Long>  getUsrGraphNodesList(String usrID);
+
+
+    /**
+     * 为实体更新实体类
+     *
+     * @param userId
+     * @param entityId
+     * @param entityName
+     * @param modelId
+     * @return
+     */
+    boolean updateEntitysClassify(String userId,long entityId,String entityName,long modelId);
+
+
+    /**
+     * 批量导入实体
+     * @param userId
+     * @param json
+     * @return
+     */
+    boolean  batchImportEntityInfo(String userId,String json);
 }
