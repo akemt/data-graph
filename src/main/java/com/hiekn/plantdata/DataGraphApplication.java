@@ -10,6 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 @SpringBootApplication
 @MapperScan(basePackages = "com.hiekn.plantdata.mapper")
 @EntityScan(basePackages="com.hiekn.plantdata.Entity")
+@EnableTransactionManagement
 public class DataGraphApplication {
 
 	public static void main(String[] args) {

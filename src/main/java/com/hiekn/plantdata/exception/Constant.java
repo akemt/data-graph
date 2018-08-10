@@ -40,4 +40,8 @@ public class Constant {
         buildMap.put("Java", "build.xml");
         buildMap.put("C", "value2");
     }
+
+    // 数据源类型
+    public static final String DATASOURCE_KIND_SYN = "syn";
+    public static final String DATASOURCE_KIND_CODE = "code";
 }

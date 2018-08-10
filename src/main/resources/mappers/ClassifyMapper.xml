@@ -7,24 +7,24 @@
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from CLASSIFY
-    where CLASSID = #{classid,jdbcType=VARCHAR}
+    where CLASSID = #{classId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hiekn.plantdata.Entity.Classify" >
     insert into CLASSIFY (CLASSID, CLASSNAME)
-    values (#{classid,jdbcType=VARCHAR}, #{classname,jdbcType=VARCHAR})
+    values (#{classId,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.hiekn.plantdata.Entity.Classify" >
     update CLASSIFY
-    set CLASSNAME = #{classname,jdbcType=VARCHAR}
-    where CLASSID = #{classid,jdbcType=VARCHAR}
+    set CLASSNAME = #{className,jdbcType=VARCHAR}
+    where CLASSID = #{classId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select CLASSID, CLASSNAME
     from CLASSIFY
-    where CLASSID = #{classid,jdbcType=VARCHAR}
+    where CLASSID = #{classId,jdbcType=VARCHAR}
   </select>
-  <select id="selectAll" resultType="java.util.HashMap" >
-    select CLASSID as "classId", CLASSNAME as "className"
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select CLASSID, CLASSNAME
     from CLASSIFY
   </select>
 

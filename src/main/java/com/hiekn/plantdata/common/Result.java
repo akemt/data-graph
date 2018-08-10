@@ -69,6 +69,9 @@ import java.io.Serializable;
             return new Result<T>(data,  ResultEnum.FAILURE.code, ResultEnum.FAILURE.msg);
         }
 
+        public static <T> Result<T> failure(T data, String msg) {
+            return new Result<T>(data, ResultEnum.FAILURE.code, msg);
+        }
 
         public static <T> Result<T> success(T data,int code,String msg) {
             return new Result<T>(data, code, msg);

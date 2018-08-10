@@ -80,4 +80,7 @@ public interface ModelMapper {
      * @return
      */
     List<Map<String, String>> getUsrGraphEntityRelList(String usrID, String entID);
+
+
+    EntityType getEntityTypeByusrIDAndName(String usrID, String name);
 }

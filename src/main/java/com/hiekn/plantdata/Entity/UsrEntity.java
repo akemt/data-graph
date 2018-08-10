@@ -1,6 +1,8 @@
 package com.hiekn.plantdata.Entity;
 
 
+import java.util.Date;
+
 /**
  * 实体-实体
  */
@@ -11,6 +13,24 @@ public class UsrEntity {
     private String EntName;
     private String EntTmpl;
     private String EntTypeSID;
+    private String Desc;
+    private Date CreateDate;
+
+    public Date getCreateDate() {
+        return CreateDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        CreateDate = createDate;
+    }
+
+    public String getDesc() {
+        return isNotNull(Desc);
+    }
+
+    public void setDesc(String desc) {
+        Desc = desc;
+    }
 
     public String getEntTypeSID() {
         return EntTypeSID;
@@ -50,5 +70,9 @@ public class UsrEntity {
 
     public void setEntTmpl(String entTmpl) {
         EntTmpl = entTmpl;
+    }
+
+    public String isNotNull(String data) {
+        return data == null ? "" : data;
     }
 }

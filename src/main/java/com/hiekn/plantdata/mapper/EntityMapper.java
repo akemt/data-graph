@@ -21,6 +21,21 @@ public interface EntityMapper {
     void saveEntityInfo(UsrEntity entityType);
 
     /**
+     * 更新实体
+     *
+     * @param entityType
+     */
+    void updateEntityInfo(UsrEntity entityType);
+
+
+    /**
+     * 根据实体ID，更新实体类ID
+     * @param entID
+     * @param EntTypeSid
+     */
+    void updateEntityInfoByEntIDAndEntTypeID(String entID,String EntTypeSid);
+
+    /**
      * 保存实体-关系
      *
      * @param entRelType
@@ -106,4 +121,30 @@ public interface EntityMapper {
      * @return
      */
     List<Map<String, String>> getUsrGraphEntityListByUsrIDAndEntTypeID(String usrID, String entTypeID);
+
+
+    UsrEntity getUsrEntityInfoByEntSID(String EntSID);
+
+
+    /**
+     * 根据实体类ID,查询此实体类下面的实体信息
+     *
+     * @param entTypeID
+     * * @param EntName
+     * @return
+     */
+    List<Map<String, String>> getGraphEntityListByEntTypeIdAndName(String entTypeID, String EntName);
+
+    //获取当前用户实体类总数
+    int getEntityClassCountByUerId(String usrID);
+
+    //获取当前用户实体总数
+    int getEntityCountByUerId(String usrID);
+
+    //获取近30天的创建实体数量
+    List<Map<String,Object>> getHistoryEntityCount(String usrID);
+
+    //获取近100条实体 value赋值1
+    List<Map<String,Object>> getNewRecordEntity(String usrID);
+
 }

@@ -2,6 +2,7 @@ package com.hiekn.plantdata.controller;
 
 import com.hiekn.plantdata.common.Result;
 import com.hiekn.plantdata.common.WebSecurityConfig;
+import com.hiekn.plantdata.infra.EntityClassService;
 import com.hiekn.plantdata.infra.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,9 @@ public class EntityController {
 
 
     @Autowired
+    private EntityClassService entityClassService;
+
+    @Autowired
     private EntityService entityService;
 
     /**
@@ -32,11 +36,11 @@ public class EntityController {
      */
     @GetMapping(value = "entitys")
     @ResponseBody
-    public Result getEntitysList(@RequestParam(value = "searchStr") String searchStr, HttpSession session) {
+    public Result getEntitysList(@RequestParam(value = "searchStr") String searchStr,@RequestParam(value = "modelId") String modelId, HttpSession session) {
         List<Map<String,Object>> mapList = new ArrayList<>();
         if (searchStr != null) {
             String userId = (String) session.getAttribute("userId");
-            mapList = entityService.getEntitysList(userId,searchStr, 25);
+            mapList = entityService.getEntitysList(userId,searchStr,modelId, 1000);
             return Result.success(mapList, 200, "请求成功!");
         } else {
             return Result.success(mapList, 200, "无数据!");
@@ -150,7 +154,7 @@ public class EntityController {
         if (map.get("id") !=null) {
             return Result.success(map, 200, "保存成功!");
         } else {
-            return Result.success("", 303, "用户名冲突!");
+            return Result.success("", 303, "实体名冲突!");
         }
     }
 
@@ -175,4 +179,64 @@ public class EntityController {
         }
         return Result.success(map, 200, "请求成功!");
     }
+
+
+    /**
+     * 为实体更新实体类
+     * @param entityId
+     * @param entityName
+     * @param modelId
+     * @param session
+     * @return
+     */
+    @PostMapping(value = "entitys/classify")
+    @ResponseBody
+    public Result updateEntitysClassify(@RequestParam(value = "entityId") long entityId,
+                                        @RequestParam(value = "entityName") String entityName,
+                                        @RequestParam(value = "modelId") long modelId,HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        boolean flag = entityService.updateEntitysClassify(userId,entityId,entityName,modelId);
+
+        if (flag) {
+            return Result.success("", 200, "保存成功!");
+        } else {
+            return Result.success("", 303, "此实体类下已经存在该实体！");
+        }
+    }
+
+    /**
+     * 获得首页信息
+     *
+     * @param session
+     * @return
+     */
+    @GetMapping(value = "/home")
+    @ResponseBody
+    public Result getHomeInfo(HttpSession session) {
+
+        String usrID = (String) session.getAttribute("userId");
+        Map<String, Object> mapList = entityService.getHomeInfo(usrID);
+        return Result.success(mapList, 200, "请求成功!");
+    }
+
+
+    /**
+     * 批量导入实体
+     * @param json
+     * @param session
+     * @return
+     */
+    @PostMapping(value = "import/entitys")
+    @ResponseBody
+    public Result batchImportEntityInfo(@RequestParam(value = "json") String json,HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        boolean flag = entityService.batchImportEntityInfo(userId,json);
+
+        if (flag) {
+            return Result.success("", 200, "保存成功!");
+        } else {
+            return Result.success("", 303, "实体名冲突！");
+        }
+    }
+
 }

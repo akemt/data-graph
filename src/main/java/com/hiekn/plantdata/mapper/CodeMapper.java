@@ -22,5 +22,7 @@ public interface CodeMapper {
 
     List<Code> getCodeListByClassId(Map<String,Object> condition);
 
+    int getCodeCountByName(String searchStr);
+
 
 }

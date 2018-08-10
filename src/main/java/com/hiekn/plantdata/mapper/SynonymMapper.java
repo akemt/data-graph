@@ -20,4 +20,9 @@ public interface SynonymMapper {
 
     List<Map<String,Object>> getSynListByCodeId(String codeId);
 
+    int getSynCountByName(String searchStr);
+
+    List<Map<String,Object>> searchCodeNameInfo(String searchStr);
+
+    List<Map<String,Object>> searchSynNameInfo(String searchStr);
 }

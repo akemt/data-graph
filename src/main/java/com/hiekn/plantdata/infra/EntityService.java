@@ -13,7 +13,7 @@ public interface EntityService {
      * @param searchStr
      * @return
      */
-    public List<Map<String, Object>> getEntitysList(String userId,String searchStr, Integer iPage);
+    public List<Map<String, Object>> getEntitysList(String userId,String searchStr,String modelId, Integer iPage);
 
 
     /**
@@ -88,4 +88,32 @@ public interface EntityService {
      * @return
      */
     public List<Long>  getUsrGraphNodesList(String usrID);
+
+
+    /**
+     * 为实体更新实体类
+     *
+     * @param userId
+     * @param entityId
+     * @param entityName
+     * @param modelId
+     * @return
+     */
+    boolean updateEntitysClassify(String userId,long entityId,String entityName,long modelId);
+
+
+    /**
+     * 批量导入实体
+     * @param userId
+     * @param json
+     * @return
+     */
+    boolean  batchImportEntityInfo(String userId,String json);
+
+    /**
+     * 根据当前用户，获取首页信息
+     * @param usrID
+     * @return
+     */
+    Map<String,Object> getHomeInfo(String usrID);
 }
