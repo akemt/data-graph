@@ -116,4 +116,17 @@ public interface EntityMapper {
 
 
     UsrEntity getUsrEntityInfoByEntSID(String EntSID);
+
+    //获取当前用户实体类总数
+    int getEntityClassCountByUerId(String usrID);
+
+    //获取当前用户实体总数
+    int getEntityCountByUerId(String usrID);
+
+    //获取近30天的创建实体数量
+    List<Map<String,Object>> getHistoryEntityCount(String usrID);
+
+    //获取近100条实体 value赋值1
+    List<Map<String,Object>> getNewRecordEntity(String usrID);
+
 }

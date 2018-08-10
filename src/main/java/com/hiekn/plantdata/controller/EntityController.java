@@ -193,4 +193,20 @@ public class EntityController {
             return Result.success("", 303, "用户名冲突!");
         }
     }
+
+    /**
+     * 获得首页信息
+     *
+     * @param session
+     * @return
+     */
+    @GetMapping(value = "/home")
+    @ResponseBody
+    public Result getHomeInfo(HttpSession session) {
+
+        String usrID = (String) session.getAttribute("userId");
+        Map<String, Object> mapList = entityService.getHomeInfo(usrID);
+        return Result.success(mapList, 200, "请求成功!");
+    }
+
 }
