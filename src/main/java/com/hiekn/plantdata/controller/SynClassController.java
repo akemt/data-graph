@@ -85,4 +85,21 @@ public class SynClassController {
             return Result.failure(null, "批量导入码表失败。" + e.getMessage());
         }
     }
+
+    /**
+     * 再次导入码表
+     *
+     * @param classId
+     * @return
+     */
+    @PostMapping(value = "/import/{classId}")
+    @ResponseBody
+    public Result<ImportResult> importCodes(@PathVariable(value = "classId") String classId) {
+        try {
+            ImportResult importResult = synClassService.insertCodesAgain(classId);
+            return Result.success(importResult, 200, "导入成功");
+        } catch (SQLException e) {
+            return Result.failure(null, "再次导入码表失败。" + e.getMessage());
+        }
+    }
 }

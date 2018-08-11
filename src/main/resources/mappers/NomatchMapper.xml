@@ -36,8 +36,9 @@
 
   <select id="getNomatchList" resultType="java.util.HashMap" >
    select a.CLASSID as "classId",a.CLASSNAME as "className",count(b.CLASSID) as "count"
-   from CLASSIFY a  left join DATASOURCE b on a.CLASSID=b.CLASSID
+   from CLASSIFY a  left join NOMATCH b on a.CLASSID=b.CLASSID
    GROUP BY a.CLASSID,a.CLASSNAME
+	 ORDER BY "count" DESC
   </select>
 
   <select id="getNomatchInfoCountByClass" resultType="java.lang.Integer" >
