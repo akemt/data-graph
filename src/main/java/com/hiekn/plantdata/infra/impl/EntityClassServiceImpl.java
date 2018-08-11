@@ -519,10 +519,25 @@ public class EntityClassServiceImpl implements EntityClassService {
     }
 
     @Override
-    public List<Map<String,Object>> getModelAttrValue(String id){
-        List<Map<String,Object>> list = new ArrayList<>();
-        list = modelMapper.getModelAttrValue(id);
+    public List<Map<String,String>> getModelAttrValue(String id){
+        //获取实体类的属性列表
+        List<String> attrList = modelMapper.getModelAttrList(id);
+        //获取实体列表
+        List<String> entityList = modelMapper.getModelEntityList(id);
+        //结果集
+        List<Map<String,String>> list = new ArrayList<>();
+        //遍历实体
+        for (String entity:entityList) {
+            Map<String,String> map = new HashMap<>();
+            map.put("ent_NamE",entity);
+            //遍历实体类属性
+            for (String attr:attrList){
+                String value = modelMapper.getModelAttrValue(id,entity,attr);
+                map.put(attr,value);
+            }
+            list.add(map);
+        }
 
-        return null;
+        return list;
     }
 }

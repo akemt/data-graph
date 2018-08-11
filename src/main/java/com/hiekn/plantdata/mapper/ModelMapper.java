@@ -85,10 +85,27 @@ public interface ModelMapper {
     EntityType getEntityTypeByusrIDAndName(String usrID, String name);
 
     /**
-     * 获取实体类中的属性在所有实体中的值
+     * 获取实体类属性列表
      *
      * @param id
      * @return
      */
-    List<Map<String,Object>> getModelAttrValue(String id);
+    List<String> getModelAttrList(String id);
+
+    /**
+     * 获取实体类的实体名称
+     *
+     * @param id
+     * @return
+     */
+    List<String> getModelEntityList(String id);
+
+    /**
+     * 获取实体类中的属性在实体中的值
+     *
+     * @param attr
+     * @param entity
+     * @return
+     */
+    String getModelAttrValue(String id,String entity,String attr);
 }

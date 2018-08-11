@@ -89,6 +89,6 @@ public interface EntityClassService {
      * @param id
      * @return
      */
-    List<Map<String,Object>> getModelAttrValue(String id);
+    List<Map<String,String>> getModelAttrValue(String id);
 
 }

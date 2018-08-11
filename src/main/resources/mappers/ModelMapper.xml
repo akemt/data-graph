@@ -84,4 +84,26 @@
     <select id="getEntityTypeByusrIDAndName"  parameterType="java.lang.String" resultMap="ModelTypeResultMap">
         SELECT * from EntityType u where u.usrSID=#{0} and u.EntName=#{1}
     </select>
+
+    <!--获取实体类属性列表-->
+    <select id="getModelAttrList"  parameterType="java.lang.String" resultType="java.lang.String">
+        select ATBNAME FROM ENTATTRIBTYPE WHERE ENTSID = (
+select ENTSID from ENTITYTYPE where id = #{0} )
+    </select>
+
+    <!--获取实体类属性列表-->
+    <select id="getModelEntityList"  parameterType="java.lang.String" resultType="java.lang.String">
+        select entname FROM USRENTITY where ENTTYPESID in (
+select ENTSID from ENTITYTYPE where id = #{0} )
+    </select>
+
+    <!--获取实体类中的属性在实体中的值-->
+    <select id="getModelAttrValue"  parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT c.value
+FROM ENTITYTYPE a
+LEFT JOIN USRENTITY b on a.ENTSID=b.ENTTYPESID
+LEFT JOIN USRENTATTRIB c on c.ENTSID=b.ENTSID
+where a.id = #{0} and b.entname = #{1} and c.atbname=#{2}
+    </select>
+
 </mapper>
