@@ -54,4 +54,9 @@
     from SYNTABLE
     WHERE SYNNAME like concat(concat('%',#{0}),'%')
   </select>
+  
+  <select id="selectSynByClassId" resultType="java.lang.String" parameterType="java.lang.String">
+    select SYNNAME from syntable
+    where classid = #{0}
+  </select>
 </mapper>

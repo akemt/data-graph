@@ -25,4 +25,6 @@ public interface SynonymMapper {
     List<Map<String,Object>> searchCodeNameInfo(String searchStr);
 
     List<Map<String,Object>> searchSynNameInfo(String searchStr);
+
+    List<String> selectSynByClassId(String classId);
 }

@@ -1,10 +1,7 @@
 package com.hiekn.plantdata.infra.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hiekn.plantdata.Entity.Classify;
-import com.hiekn.plantdata.Entity.Code;
-import com.hiekn.plantdata.Entity.Datasource;
-import com.hiekn.plantdata.Entity.SqlConfig;
+import com.hiekn.plantdata.Entity.*;
 import com.hiekn.plantdata.common.UUIDUtil;
 import com.hiekn.plantdata.infra.SynClassService;
 import com.hiekn.plantdata.mapper.ClassifyMapper;
@@ -94,7 +91,7 @@ public class SynClassServiceImpl implements SynClassService {
 
     @Override
     @Transactional
-    public Datasource insertCodes(SqlConfig sqlConfig, String className, Map<String, String> dataMap) {
+    public ImportResult insertCodes(SqlConfig sqlConfig, String className, Map<String, String> dataMap) {
         // 码表大类表中插入一条数据
         Classify classify = new Classify();
         String classId = UUIDUtil.createUUID();
@@ -119,6 +116,11 @@ public class SynClassServiceImpl implements SynClassService {
             code.setCodeName(dataMap.get(codeColumn));
             codeMapper.insert(code);
         }
-        return datasource;
+
+        ImportResult importResult = new ImportResult();
+        importResult.setDatasourceId(datasource.getDatasourceId());
+        importResult.setMatch(dataMap.size());
+        importResult.setNomatch(0);
+        return importResult;
     }
 }

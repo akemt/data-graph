@@ -9,25 +9,25 @@
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from NOMATCH
-    where NOMATCHID = #{nomatchid,jdbcType=VARCHAR}
+    where NOMATCHID = #{nomatchId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hiekn.plantdata.Entity.Nomatch" >
     insert into NOMATCH (NOMATCHID, CLASSID, DATASOURCEID,
       NOMATCHNAME)
-    values (#{nomatchid,jdbcType=VARCHAR}, #{classid,jdbcType=VARCHAR}, #{datasourceid,jdbcType=VARCHAR},
-      #{nomatchname,jdbcType=VARCHAR})
+    values (#{nomatchId,jdbcType=VARCHAR}, #{classId,jdbcType=VARCHAR}, #{datasourceId,jdbcType=VARCHAR},
+      #{nomatchName,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.hiekn.plantdata.Entity.Nomatch" >
     update NOMATCH
-    set CLASSID = #{classid,jdbcType=VARCHAR},
-      DATASOURCEID = #{datasourceid,jdbcType=VARCHAR},
-      NOMATCHNAME = #{nomatchname,jdbcType=VARCHAR}
-    where NOMATCHID = #{nomatchid,jdbcType=VARCHAR}
+    set CLASSID = #{classId,jdbcType=VARCHAR},
+      DATASOURCEID = #{datasourceId,jdbcType=VARCHAR},
+      NOMATCHNAME = #{nomatchName,jdbcType=VARCHAR}
+    where NOMATCHID = #{nomatchId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select NOMATCHID, CLASSID, DATASOURCEID, NOMATCHNAME
     from NOMATCH
-    where NOMATCHID = #{nomatchid,jdbcType=VARCHAR}
+    where NOMATCHID = #{nomatchId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select NOMATCHID, CLASSID, DATASOURCEID, NOMATCHNAME

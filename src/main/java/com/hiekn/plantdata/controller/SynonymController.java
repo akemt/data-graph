@@ -120,15 +120,17 @@ public class SynonymController {
      */
     @PostMapping(value = "/import")
     @ResponseBody
-    public Result<ImportResult> importCodes(SqlConfig sqlConfig, String name, String valueColumn, String classId) {
+    public Result<ImportResult> importSyn(SqlConfig sqlConfig, String name, String valueColumn, String classId) {
 
         if (name == null || "".equals(name)) {
             return Result.failure(null, "数据源名称为空");
         }
 
         try {
-
-            return Result.ok(null);
+            // 先获取源数据，再批量插入新数据
+            List<String> sourceData = synonymService.getSourceData(sqlConfig, valueColumn);
+            ImportResult importResult = synonymService.insertSyn(sqlConfig, name, sourceData, classId);
+            return Result.success(importResult, 200, "导入成功");
         } catch (Exception e) {
             return Result.failure(null, "批量导入同义词失败。" + e.getMessage());
         }
