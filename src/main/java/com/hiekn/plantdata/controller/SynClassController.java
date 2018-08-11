@@ -1,6 +1,7 @@
 package com.hiekn.plantdata.controller;
 
 import com.hiekn.plantdata.Entity.Classify;
+import com.hiekn.plantdata.Entity.Datasource;
 import com.hiekn.plantdata.Entity.ImportResult;
 import com.hiekn.plantdata.Entity.SqlConfig;
 import com.hiekn.plantdata.common.Result;
@@ -80,10 +81,15 @@ public class SynClassController {
         try {
             // 先获取源数据，再批量插入新数据
             Map<String, String> map = synClassService.getSourceData(sqlConfig, codeColumn, valueColumn);
-            synClassService.insertCodes(sqlConfig, name, map);
+            Datasource datasource = synClassService.insertCodes(sqlConfig, name, map);
+
+            ImportResult importResult = new ImportResult();
+            importResult.setDatasourceId(datasource.getDatasourceId());
+            importResult.setMatch(map.size());
+            importResult.setNomatch(0);
+            return Result.success(importResult, 200, "导入成功");
         } catch (SQLException e) {
             return Result.failure(null, "批量导入码表失败。" + e.getMessage());
         }
-        return Result.success(null, 200, "导入成功");
     }
 }

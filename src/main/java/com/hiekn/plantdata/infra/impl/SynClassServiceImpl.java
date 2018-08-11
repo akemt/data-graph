@@ -94,7 +94,7 @@ public class SynClassServiceImpl implements SynClassService {
 
     @Override
     @Transactional
-    public int insertCodes(SqlConfig sqlConfig, String className, Map<String, String> dataMap) {
+    public Datasource insertCodes(SqlConfig sqlConfig, String className, Map<String, String> dataMap) {
         // 码表大类表中插入一条数据
         Classify classify = new Classify();
         String classId = UUIDUtil.createUUID();
@@ -119,6 +119,6 @@ public class SynClassServiceImpl implements SynClassService {
             code.setCodeName(dataMap.get(codeColumn));
             codeMapper.insert(code);
         }
-        return dataMap.keySet().size();
+        return datasource;
     }
 }

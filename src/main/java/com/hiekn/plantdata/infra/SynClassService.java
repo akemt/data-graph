@@ -1,6 +1,7 @@
 package com.hiekn.plantdata.infra;
 
 import com.hiekn.plantdata.Entity.Classify;
+import com.hiekn.plantdata.Entity.Datasource;
 import com.hiekn.plantdata.Entity.SqlConfig;
 
 import java.sql.SQLException;
@@ -26,7 +27,7 @@ public interface SynClassService {
      *
      * @param className
      * @param dataMap
-     * @return
+     * @return 自动创建的数据源对象
      */
-    int insertCodes(SqlConfig sqlConfig, String className, Map<String, String> dataMap);
+    Datasource insertCodes(SqlConfig sqlConfig, String className, Map<String, String> dataMap);
 }
