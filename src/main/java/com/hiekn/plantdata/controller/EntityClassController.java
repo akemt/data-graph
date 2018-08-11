@@ -160,9 +160,9 @@ public class EntityClassController {
      */
     @GetMapping(value = "/{id}/attrValue")
     @ResponseBody
-    public Result getModelAttrValue(@PathVariable(value = "id") String id) {
+    public Result getModelAttrValue(@PathVariable(value = "id") String entsId) {
         List<Map<String,String>> mapList = new ArrayList<>();
-            mapList = entityClassService.getModelAttrValue(id);
+            mapList = entityClassService.getModelAttrValue(entsId);
             return Result.success(mapList, 200, "请求成功!");
         }
 
