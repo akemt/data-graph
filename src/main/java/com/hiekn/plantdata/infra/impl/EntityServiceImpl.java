@@ -159,6 +159,7 @@ public class EntityServiceImpl implements EntityService {
                 entAttribType.setUntName("");
                 entAttribType.setUsrSID(userId);
                 entAttribType.setEntSID(String.valueOf(entID));
+                entAttribType.setVALUE(value);
                 entityMapper.saveEntAttrInfo(entAttribType);
 
 
@@ -364,7 +365,7 @@ public class EntityServiceImpl implements EntityService {
     }
 
     @Override
-    public Map<String, Object> saveEntitysInfo(String userId, String eClassname,long mID) {
+    public Map<String, Object> saveEntitysInfo(String userId, String eClassname,long mID,String desc) {
 
         //验证当前用户下，是否存在该名称
         List<Map<String,String>> mapList = entityMapper.getUsrGraphEntityListByName(userId,eClassname);
@@ -392,6 +393,8 @@ public class EntityServiceImpl implements EntityService {
             entityType.setUsrSID(userId);
             entityType.setEntTmpl("");
             entityType.setEntTypeSID(String.valueOf(mID));
+            entityType.setDesc(desc);
+            entityType.setCreateDate(new Date());
             entityMapper.saveEntityInfo(entityType);
         }
         return map;
@@ -585,6 +588,7 @@ public class EntityServiceImpl implements EntityService {
                 entAttribType.setUntName("");
                 entAttribType.setUsrSID(userId);
                 entAttribType.setEntSID(String.valueOf(entID));
+                entAttribType.setVALUE(value);
                 entityMapper.saveEntAttrInfo(entAttribType);
 
 

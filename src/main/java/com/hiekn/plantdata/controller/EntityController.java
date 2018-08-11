@@ -149,7 +149,7 @@ public class EntityController {
     @ResponseBody
     public Result saveEntitysInfo(@RequestParam(value = "name") String eClassname,@RequestParam(value = "id") long mID,HttpSession session) {
         String userId = (String) session.getAttribute("userId");
-        Map<String, Object> map = entityService.saveEntitysInfo(userId,eClassname,mID);
+        Map<String, Object> map = entityService.saveEntitysInfo(userId,eClassname,mID,"");
 
         if (map.get("id") !=null) {
             return Result.success(map, 200, "保存成功!");

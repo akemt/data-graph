@@ -13,6 +13,15 @@ public class UsrEntAttrib {
     private String ObjSID;
     private String UntName;
     private String EntSID;
+    private String VALUE;
+
+    public String getVALUE() {
+        return VALUE;
+    }
+
+    public void setVALUE(String VALUE) {
+        this.VALUE = VALUE;
+    }
 
     public String getEntSID() {
         return EntSID;

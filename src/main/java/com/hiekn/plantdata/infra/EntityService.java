@@ -73,7 +73,7 @@ public interface EntityService {
      * @param eClassname
      * @return
      */
-    public Map<String, Object> saveEntitysInfo(String userId, String eClassname,long mID);
+    public Map<String, Object> saveEntitysInfo(String userId, String eClassname,long mID,String desc);
 
     /**
      * 根据当前用户，查询该用户下的实体关系

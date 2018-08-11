@@ -32,11 +32,12 @@
         <result column="ObjSID" property="ObjSID" jdbcType="VARCHAR"/>
         <result column="UntName" property="UntName" jdbcType="VARCHAR"/>
         <result column="EntSID" property="EntSID" jdbcType="VARCHAR"/>
+        <result column="VALUE" property="VALUE" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--保存实体内容-->
     <insert id="saveEntityInfo" parameterType="com.hiekn.plantdata.Entity.UsrEntity">
-        INSERT INTO UsrEntity(EntSID,EntName,usrSID,EntTmpl,EntTypeSID,Desc,CREATEDATE)
+        INSERT INTO UsrEntity(EntSID,EntName,usrSID,EntTmpl,EntTypeSID,"DESC",CREATEDATE)
         VALUES(#{EntSID,jdbcType=VARCHAR},#{EntName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{EntTmpl,jdbcType=INTEGER},#{EntTypeSID,jdbcType=VARCHAR},#{Desc,jdbcType=VARCHAR},#{CreateDate,jdbcType=DATE})
     </insert>
     <!--更新实体内容-->
@@ -67,9 +68,9 @@
 
     <!--保存实体属性内容-->
     <insert id="saveEntAttrInfo" parameterType="com.hiekn.plantdata.Entity.UsrEntAttrib">
-        INSERT INTO UsrEntAttrib(AtbSID,AtbName,usrSID,DtpSID,ObjType,ObjSID,UntName,EntSID)
+        INSERT INTO UsrEntAttrib(AtbSID,AtbName,usrSID,DtpSID,ObjType,ObjSID,UntName,EntSID,VALUE)
         VALUES(#{AtbSID,jdbcType=VARCHAR},#{AtbName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{DtpSID,jdbcType=VARCHAR},
-        #{ObjType,jdbcType=VARCHAR},#{ObjSID,jdbcType=VARCHAR},#{UntName,jdbcType=VARCHAR},#{EntSID,jdbcType=VARCHAR})
+        #{ObjType,jdbcType=VARCHAR},#{ObjSID,jdbcType=VARCHAR},#{UntName,jdbcType=VARCHAR},#{EntSID,jdbcType=VARCHAR},#{VALUE,jdbcType=VARCHAR})
     </insert>
 
     <!--根据实体ID ，删除其下的属性-->
