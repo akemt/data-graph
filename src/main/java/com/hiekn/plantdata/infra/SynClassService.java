@@ -31,4 +31,12 @@ public interface SynClassService {
      * @return
      */
     ImportResult insertCodes(SqlConfig sqlConfig, Map<String, String> dataMap);
+
+    /**
+     * 再次导入码表
+     *
+     * @param classId 码表大类id
+     * @return
+     */
+    ImportResult insertCodesAgain(String classId) throws SQLException;
 }

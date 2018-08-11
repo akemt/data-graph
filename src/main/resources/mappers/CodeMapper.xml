@@ -56,4 +56,16 @@
     from CODE
     WHERE CODENAME like concat(concat('%',#{0}),'%')
   </select>
+
+  <select id="selectByClassId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select CODEID, CLASSID, CODE, CODENAME
+    from CODE
+    where CLASSID = #{classId,jdbcType=VARCHAR}
+  </select>
+
+  <update id="updateByClassIdAndCode" parameterType="com.hiekn.plantdata.Entity.Code" >
+    update CODE
+    set CODENAME = #{codeName,jdbcType=VARCHAR}
+    where CLASSID = #{classId,jdbcType=VARCHAR} and CODE = #{code,jdbcType=VARCHAR}
+  </update>
 </mapper>

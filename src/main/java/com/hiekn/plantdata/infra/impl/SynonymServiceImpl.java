@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.hiekn.plantdata.Entity.*;
 import com.hiekn.plantdata.common.UUIDUtil;
 import com.hiekn.plantdata.exception.Constant;
-import com.hiekn.plantdata.infra.SynMatchService;
 import com.hiekn.plantdata.infra.SynonymService;
 import com.hiekn.plantdata.mapper.DatasourceMapper;
 import com.hiekn.plantdata.mapper.NomatchMapper;
@@ -42,7 +41,7 @@ public class SynonymServiceImpl implements SynonymService {
     @Override
     public List<Map<String,Object>> getSynImportedDatasourece(String classId){
 
-        return datasourceMapper.getSynImportedDatasourece(classId);
+        return datasourceMapper.getSynImportedDatasource(classId);
 
     }
 

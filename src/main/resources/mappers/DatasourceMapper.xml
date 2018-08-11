@@ -41,4 +41,10 @@
     from DATASOURCE
     WHERE CLASSID = #{0} and KIND = 'syn'
   </select>
+
+  <select id="selectByClassIdAndKind" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select DATASOURCEID, DATASOURCENAME, CLASSID, KIND, CONFIG
+    from DATASOURCE
+    where CLASSID = #{classsId,jdbcType=VARCHAR} and KIND = #{kind,jdbcType=VARCHAR}
+  </select>
 </mapper>

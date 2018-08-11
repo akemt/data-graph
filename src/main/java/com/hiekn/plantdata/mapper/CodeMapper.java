@@ -1,6 +1,7 @@
 package com.hiekn.plantdata.mapper;
 
 import com.hiekn.plantdata.Entity.Code;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,5 +25,7 @@ public interface CodeMapper {
 
     int getCodeCountByName(String searchStr);
 
+    List<Code> selectByClassId(String classId);
 
+    int updateByClassIdAndCode(Code code);
 }
