@@ -83,4 +83,12 @@ public interface EntityClassService {
      */
     public Map<String, Object> getAttributesPercent(String mid, String userId);
 
+    /**
+     * 获取实体类中的属性在所有实体中的值
+     *
+     * @param id
+     * @return
+     */
+    List<Map<String,Object>> getModelAttrValue(String id);
+
 }

@@ -151,4 +151,19 @@ public class EntityClassController {
         Map<String,Object> map = entityClassService.getAttributesPercent(mid,"2");
         return Result.success(map,200,"请求成功!");
     }
+
+    /**
+     * 获取实体类中的属性在所有实体中的值
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/{id}/attrValue")
+    @ResponseBody
+    public Result getModelAttrValue(@PathVariable(value = "id") String id) {
+        List<Map<String,Object>> mapList = new ArrayList<>();
+            mapList = entityClassService.getModelAttrValue(id);
+            return Result.success(mapList, 200, "请求成功!");
+        }
+
 }

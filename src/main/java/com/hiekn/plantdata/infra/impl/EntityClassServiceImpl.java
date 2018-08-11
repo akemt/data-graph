@@ -517,4 +517,12 @@ public class EntityClassServiceImpl implements EntityClassService {
         }
         return treeNodes;
     }
+
+    @Override
+    public List<Map<String,Object>> getModelAttrValue(String id){
+        List<Map<String,Object>> list = new ArrayList<>();
+        list = modelMapper.getModelAttrValue(id);
+
+        return null;
+    }
 }
