@@ -21,5 +21,5 @@ public interface DatasourceMapper {
 
     List<Map<String,Object>> getSynImportedDatasource(String classId);
 
-    Datasource selectByClassIdAndKind(@Param("classId") String classId, @Param("kind") String kind);
+    Datasource selectByClassIdAndKind(String classId,String kind);
 }
