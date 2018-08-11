@@ -519,11 +519,11 @@ public class EntityClassServiceImpl implements EntityClassService {
     }
 
     @Override
-    public List<Map<String,String>> getModelAttrValue(String id){
+    public List<Map<String,String>> getModelAttrValue(String entsId){
         //获取实体类的属性列表
-        List<String> attrList = modelMapper.getModelAttrList(id);
+        List<String> attrList = modelMapper.getModelAttrList(entsId);
         //获取实体列表
-        List<String> entityList = modelMapper.getModelEntityList(id);
+        List<String> entityList = modelMapper.getModelEntityList(entsId);
         //结果集
         List<Map<String,String>> list = new ArrayList<>();
         //遍历实体
@@ -532,7 +532,7 @@ public class EntityClassServiceImpl implements EntityClassService {
             map.put("ent_NamE",entity);
             //遍历实体类属性
             for (String attr:attrList){
-                String value = modelMapper.getModelAttrValue(id,entity,attr);
+                String value = modelMapper.getModelAttrValue(entsId,entity,attr);
                 map.put(attr,value);
             }
             list.add(map);

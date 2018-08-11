@@ -90,7 +90,7 @@ public interface ModelMapper {
      * @param id
      * @return
      */
-    List<String> getModelAttrList(String id);
+    List<String> getModelAttrList(String entsId);
 
     /**
      * 获取实体类的实体名称
@@ -98,7 +98,7 @@ public interface ModelMapper {
      * @param id
      * @return
      */
-    List<String> getModelEntityList(String id);
+    List<String> getModelEntityList(String entsId);
 
     /**
      * 获取实体类中的属性在实体中的值
@@ -107,5 +107,5 @@ public interface ModelMapper {
      * @param entity
      * @return
      */
-    String getModelAttrValue(String id,String entity,String attr);
+    String getModelAttrValue(String entsId,String entity,String attr);
 }

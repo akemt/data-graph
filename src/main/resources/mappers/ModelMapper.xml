@@ -87,14 +87,12 @@
 
     <!--获取实体类属性列表-->
     <select id="getModelAttrList"  parameterType="java.lang.String" resultType="java.lang.String">
-        select ATBNAME FROM ENTATTRIBTYPE WHERE ENTSID = (
-select ENTSID from ENTITYTYPE where id = #{0} )
+        select ATBNAME FROM ENTATTRIBTYPE WHERE ENTSID = #{0}
     </select>
 
     <!--获取实体类属性列表-->
     <select id="getModelEntityList"  parameterType="java.lang.String" resultType="java.lang.String">
-        select entname FROM USRENTITY where ENTTYPESID in (
-select ENTSID from ENTITYTYPE where id = #{0} )
+        select entname FROM USRENTITY where ENTTYPESID = #{0}
     </select>
 
     <!--获取实体类中的属性在实体中的值-->
@@ -103,7 +101,7 @@ select ENTSID from ENTITYTYPE where id = #{0} )
 FROM ENTITYTYPE a
 LEFT JOIN USRENTITY b on a.ENTSID=b.ENTTYPESID
 LEFT JOIN USRENTATTRIB c on c.ENTSID=b.ENTSID
-where a.id = #{0} and b.entname = #{1} and c.atbname=#{2}
+where a.entsid = #{0} and b.entname = #{1} and c.atbname=#{2}
     </select>
 
 </mapper>
