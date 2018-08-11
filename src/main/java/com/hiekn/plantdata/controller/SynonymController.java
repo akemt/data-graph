@@ -111,37 +111,44 @@ public class SynonymController {
     }
 
     /**
-     * 导入新同义词（若datasourceId为空，则为第一次导入，否则为再次导入）
+     * 导入新同义词
      *
      * @param sqlConfig
      * @param classId      码表id
-     * @param datasourceId 数据源id
      * @return
      */
     @PostMapping(value = "/import")
     @ResponseBody
-    public Result<ImportResult> importSyn(SqlConfig sqlConfig, String classId, String datasourceId) {
+    public Result<ImportResult> importSyn(SqlConfig sqlConfig, String classId) {
 
-        if (Assert.isEmpty(datasourceId)) {
-            if (Assert.isEmpty(sqlConfig.getName())) {
-                return Result.failure(null, "数据源名称为空");
-            }
+        if (Assert.isEmpty(sqlConfig.getName())) {
+            return Result.failure(null, "数据源名称为空");
+        }
 
-            try {
-                // 先获取源数据，再批量插入新数据
-                Set<String> sourceData = synonymService.getSourceData(sqlConfig);
-                ImportResult importResult = synonymService.insertSyn(sqlConfig, sourceData, classId);
-                return Result.success(importResult, 200, "导入成功");
-            } catch (Exception e) {
-                return Result.failure(null, "批量导入同义词失败。" + e.getMessage());
-            }
-        } else {
-            try {
-                ImportResult importResult = synonymService.insertSynAgain(datasourceId);
-                return Result.success(importResult, 200, "导入成功");
-            } catch (Exception e) {
-                return Result.failure(null, "再次导入同义词失败。" + e.getMessage());
-            }
+        try {
+            // 先获取源数据，再批量插入新数据
+            Set<String> sourceData = synonymService.getSourceData(sqlConfig);
+            ImportResult importResult = synonymService.insertSyn(sqlConfig, sourceData, classId);
+            return Result.success(importResult, 200, "导入成功");
+        } catch (Exception e) {
+            return Result.failure(null, "批量导入同义词失败。" + e.getMessage());
+        }
+    }
+
+    /**
+     * 再次导入同义词
+     *
+     * @param datasourceId 数据源id
+     * @return
+     */
+    @PostMapping(value = "/import/{datasourceId}")
+    @ResponseBody
+    public Result<ImportResult> importSyn(@PathVariable(value = "datasourceId") String datasourceId) {
+        try {
+            ImportResult importResult = synonymService.insertSynAgain(datasourceId);
+            return Result.success(importResult, 200, "导入成功");
+        } catch (Exception e) {
+            return Result.failure(null, "再次导入同义词失败。" + e.getMessage());
         }
     }
 }
