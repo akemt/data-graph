@@ -41,6 +41,7 @@ public class Constant {
         buildMap.put("C", "value2");
     }
 
+    public final static String DB_DRIVER = "oracle.jdbc.driver.OracleDriver";
     // 数据源类型
     public static final String DATASOURCE_KIND_SYN = "syn";
     public static final String DATASOURCE_KIND_CODE = "code";

@@ -1,6 +1,7 @@
 package com.hiekn.plantdata.controller;
 
 import com.hiekn.plantdata.Entity.*;
+import com.hiekn.plantdata.common.Assert;
 import com.hiekn.plantdata.common.Result;
 import com.hiekn.plantdata.common.UUIDUtil;
 import com.hiekn.plantdata.infra.SynonymService;
@@ -110,29 +111,37 @@ public class SynonymController {
     }
 
     /**
-     * 导入新同义词
+     * 导入新同义词（若datasourceId为空，则为第一次导入，否则为再次导入）
      *
      * @param sqlConfig
-     * @param name        数据源名称
-     * @param valueColumn 同义词值列
-     * @param classId     码表id
+     * @param classId      码表id
+     * @param datasourceId 数据源id
      * @return
      */
     @PostMapping(value = "/import")
     @ResponseBody
-    public Result<ImportResult> importSyn(SqlConfig sqlConfig, String name, String valueColumn, String classId) {
+    public Result<ImportResult> importSyn(SqlConfig sqlConfig, String classId, String datasourceId) {
 
-        if (name == null || "".equals(name)) {
-            return Result.failure(null, "数据源名称为空");
-        }
+        if (Assert.isEmpty(datasourceId)) {
+            if (Assert.isEmpty(sqlConfig.getName())) {
+                return Result.failure(null, "数据源名称为空");
+            }
 
-        try {
-            // 先获取源数据，再批量插入新数据
-            List<String> sourceData = synonymService.getSourceData(sqlConfig, valueColumn);
-            ImportResult importResult = synonymService.insertSyn(sqlConfig, name, sourceData, classId);
-            return Result.success(importResult, 200, "导入成功");
-        } catch (Exception e) {
-            return Result.failure(null, "批量导入同义词失败。" + e.getMessage());
+            try {
+                // 先获取源数据，再批量插入新数据
+                Set<String> sourceData = synonymService.getSourceData(sqlConfig);
+                ImportResult importResult = synonymService.insertSyn(sqlConfig, sourceData, classId);
+                return Result.success(importResult, 200, "导入成功");
+            } catch (Exception e) {
+                return Result.failure(null, "批量导入同义词失败。" + e.getMessage());
+            }
+        } else {
+            try {
+                ImportResult importResult = synonymService.insertSynAgain(datasourceId);
+                return Result.success(importResult, 200, "导入成功");
+            } catch (Exception e) {
+                return Result.failure(null, "再次导入同义词失败。" + e.getMessage());
+            }
         }
     }
 }

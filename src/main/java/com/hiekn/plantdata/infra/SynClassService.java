@@ -21,14 +21,14 @@ public interface SynClassService {
      * @return
      * @throws SQLException
      */
-    Map<String, String> getSourceData(SqlConfig sqlConfig, String codeColumn, String valueColumn) throws SQLException;
+    Map<String, String> getSourceData(SqlConfig sqlConfig) throws SQLException;
 
     /**
      * 在码表名称表中插入一条数据，然后批量插入对应的码表
      *
-     * @param className
+     * @param sqlConfig
      * @param dataMap
      * @return
      */
-    ImportResult insertCodes(SqlConfig sqlConfig, String className, Map<String, String> dataMap);
+    ImportResult insertCodes(SqlConfig sqlConfig, Map<String, String> dataMap);
 }

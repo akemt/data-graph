@@ -4,6 +4,7 @@ import com.hiekn.plantdata.Entity.Classify;
 import com.hiekn.plantdata.Entity.Datasource;
 import com.hiekn.plantdata.Entity.ImportResult;
 import com.hiekn.plantdata.Entity.SqlConfig;
+import com.hiekn.plantdata.common.Assert;
 import com.hiekn.plantdata.common.Result;
 import com.hiekn.plantdata.common.UUIDUtil;
 import com.hiekn.plantdata.infra.SynClassService;
@@ -58,30 +59,27 @@ public class SynClassController {
      * 导入新码表
      *
      * @param sqlConfig
-     * @param name        新码表名称
-     * @param codeColumn  新码表id列
-     * @param valueColumn 新码表值列
      * @return
      */
     @PostMapping(value = "/import")
     @ResponseBody
-    public Result<ImportResult> importCodes(SqlConfig sqlConfig, String name, String codeColumn, String valueColumn) {
+    public Result<ImportResult> importCodes(SqlConfig sqlConfig) {
 
-        if (name == null || "".equals(name)) {
+        if (Assert.isEmpty(sqlConfig.getName())) {
             return Result.failure(null, "码表名称为空");
         }
 
         // 码表名称是否重复则直接返回错误信息
         for (Classify classify : synClassService.getClassList()) {
-            if (name.equals(classify.getClassName())) {
+            if (sqlConfig.getName().equals(classify.getClassName())) {
                 return Result.failure(null, "码表名称已存在");
             }
         }
 
         try {
             // 先获取源数据，再批量插入新数据
-            Map<String, String> sourceData = synClassService.getSourceData(sqlConfig, codeColumn, valueColumn);
-            ImportResult importResult = synClassService.insertCodes(sqlConfig, name, sourceData);
+            Map<String, String> sourceData = synClassService.getSourceData(sqlConfig);
+            ImportResult importResult = synClassService.insertCodes(sqlConfig, sourceData);
             return Result.success(importResult, 200, "导入成功");
         } catch (SQLException e) {
             return Result.failure(null, "批量导入码表失败。" + e.getMessage());

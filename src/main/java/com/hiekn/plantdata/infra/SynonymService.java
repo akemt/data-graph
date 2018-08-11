@@ -1,6 +1,5 @@
 package com.hiekn.plantdata.infra;
 
-import com.hiekn.plantdata.Entity.Datasource;
 import com.hiekn.plantdata.Entity.ImportResult;
 import com.hiekn.plantdata.Entity.SqlConfig;
 import com.hiekn.plantdata.Entity.Synonym;
@@ -8,6 +7,7 @@ import com.hiekn.plantdata.Entity.Synonym;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface SynonymService {
     List<Map<String,Object>> getSynListByCodeId(String codeId);
@@ -27,15 +27,23 @@ public interface SynonymService {
      * @return
      * @throws SQLException
      */
-    List<String> getSourceData(SqlConfig sqlConfig, String valueColumn) throws SQLException;
+    Set<String> getSourceData(SqlConfig sqlConfig) throws SQLException;
 
     /**
      * 导入同义词
+     *
      * @param sqlConfig
-     * @param dataSourceName
-     * @param dataList
+     * @param dataSet
      * @param classId
      * @return
      */
-    ImportResult insertSyn(SqlConfig sqlConfig, String dataSourceName, List<String> dataList, String classId);
+    ImportResult insertSyn(SqlConfig sqlConfig, Set<String> dataSet, String classId);
+
+    /**
+     * 再次导入同义词
+     *
+     * @param datasourceId
+     * @return
+     */
+    ImportResult insertSynAgain(String datasourceId) throws SQLException;
 }

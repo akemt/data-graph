@@ -1,6 +1,7 @@
 package com.hiekn.plantdata.infra.impl;
 
 import com.hiekn.plantdata.Entity.SqlConfig;
+import com.hiekn.plantdata.exception.Constant;
 import com.hiekn.plantdata.infra.SynOperateService;
 import com.hiekn.plantdata.mapper.CodeMapper;
 import com.hiekn.plantdata.mapper.NomatchMapper;
@@ -93,7 +94,7 @@ public class SynOperateServiceImpl implements SynOperateService {
     public List<String> getColumns(SqlConfig sqlConfig) throws SQLException {
         List<String> result = new ArrayList<>();
 
-        Connection conn = JdbcUtils.getConn(sqlConfig, "oracle.jdbc.driver.OracleDriver");
+        Connection conn = JdbcUtils.getConn(sqlConfig, Constant.DB_DRIVER);
         String sql = sqlConfig.getSql();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
