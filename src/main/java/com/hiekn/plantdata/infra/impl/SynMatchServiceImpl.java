@@ -57,7 +57,7 @@ public class SynMatchServiceImpl implements SynMatchService {
             flg = nomatchMapper.deleteByPrimaryKey(noId);
             // 匹配同义词：synonyms表填加数据
             Synonym synonym = new Synonym();
-           // synonym.setSynId(UUIDUtil.createUUID());
+            synonym.setSynId(UUIDUtil.createUUID());
             synonym.setSynName(noName);
             synonym.setCodeId(codeId);
             flg = synonymMapper.insert(synonym);
