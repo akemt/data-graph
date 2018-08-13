@@ -88,7 +88,7 @@ public class EntityServiceImpl implements EntityService {
         UsrEntity entityType = new UsrEntity();
         entityType.setEntSID(strId);
         entityType.setUsrSID(userId);
-        entityType.setDesc(desc);
+        entityType.setENT_DESC(desc);
         entityMapper.updateEntityInfo(entityType);
 
         String name = jsonObject.getString("name");
@@ -211,7 +211,7 @@ public class EntityServiceImpl implements EntityService {
         //展示描述
         UsrEntity usrEntity = entityMapper.getUsrEntityInfoByEntSID(String.valueOf(id));
         if(usrEntity !=null){
-            map.put("desc", usrEntity.getDesc());
+            map.put("desc", usrEntity.getENT_DESC());
         }
         long parId = (Integer)list.get(0).get("parentId");
 
@@ -393,7 +393,7 @@ public class EntityServiceImpl implements EntityService {
             entityType.setUsrSID(userId);
             entityType.setEntTmpl("");
             entityType.setEntTypeSID(String.valueOf(mID));
-            entityType.setDesc(desc);
+            entityType.setENT_DESC(desc);
             entityType.setCreateDate(new Date());
             entityMapper.saveEntityInfo(entityType);
         }

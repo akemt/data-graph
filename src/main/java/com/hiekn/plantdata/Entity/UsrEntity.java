@@ -13,7 +13,7 @@ public class UsrEntity {
     private String EntName;
     private String EntTmpl;
     private String EntTypeSID;
-    private String Desc;
+    private String ENT_DESC;
     private Date CreateDate;
 
     public Date getCreateDate() {
@@ -24,12 +24,12 @@ public class UsrEntity {
         CreateDate = createDate;
     }
 
-    public String getDesc() {
-        return isNotNull(Desc);
+    public String getENT_DESC() {
+        return isNotNull(ENT_DESC);
     }
 
-    public void setDesc(String desc) {
-        Desc = desc;
+    public void setENT_DESC(String ENT_DESC) {
+        this.ENT_DESC = ENT_DESC;
     }
 
     public String getEntTypeSID() {

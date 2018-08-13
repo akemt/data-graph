@@ -9,7 +9,7 @@
         <result column="EntName" property="EntName" jdbcType="VARCHAR"/>
         <result column="EntTmpl" property="EntTmpl" jdbcType="INTEGER"/>
         <result column="EntTypeSID" property="EntTypeSID" jdbcType="VARCHAR"/>
-        <result column="Desc" property="Desc" jdbcType="VARCHAR"/>
+        <result column="ENT_DESC" property="ENT_DESC" jdbcType="VARCHAR"/>
         <result column="CREATEDATE" property="CreateDate" jdbcType="DATE"/>
     </resultMap>
 
@@ -37,13 +37,13 @@
 
     <!--保存实体内容-->
     <insert id="saveEntityInfo" parameterType="com.hiekn.plantdata.Entity.UsrEntity">
-        INSERT INTO UsrEntity(EntSID,EntName,usrSID,EntTmpl,EntTypeSID,"DESC",CREATEDATE)
-        VALUES(#{EntSID,jdbcType=VARCHAR},#{EntName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{EntTmpl,jdbcType=INTEGER},#{EntTypeSID,jdbcType=VARCHAR},#{Desc,jdbcType=VARCHAR},#{CreateDate,jdbcType=DATE})
+        INSERT INTO UsrEntity(EntSID,EntName,usrSID,EntTmpl,EntTypeSID,ENT_DESC,CREATEDATE)
+        VALUES(#{EntSID,jdbcType=VARCHAR},#{EntName,jdbcType=VARCHAR},#{usrSID,jdbcType=VARCHAR},#{EntTmpl,jdbcType=INTEGER},#{EntTypeSID,jdbcType=VARCHAR},#{ENT_DESC,jdbcType=VARCHAR},#{CreateDate,jdbcType=DATE})
     </insert>
     <!--更新实体内容-->
     <update id="updateEntityInfo" parameterType="com.hiekn.plantdata.Entity.UsrEntity">
         update UsrEntity
-        set "DESC" = #{Desc,jdbcType=VARCHAR}
+        set ENT_DESC = #{ENT_DESC,jdbcType=VARCHAR}
         where EntSID = #{EntSID,jdbcType=VARCHAR} and usrSID = #{usrSID,jdbcType=VARCHAR}
     </update>
 
