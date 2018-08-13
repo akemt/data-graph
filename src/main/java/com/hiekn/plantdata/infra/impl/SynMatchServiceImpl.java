@@ -11,12 +11,14 @@ import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 @Slf4j
 public class SynMatchServiceImpl implements SynMatchService {
 
@@ -55,7 +57,7 @@ public class SynMatchServiceImpl implements SynMatchService {
             flg = nomatchMapper.deleteByPrimaryKey(noId);
             // 匹配同义词：synonyms表填加数据
             Synonym synonym = new Synonym();
-            synonym.setSynId(UUIDUtil.createUUID());
+           // synonym.setSynId(UUIDUtil.createUUID());
             synonym.setSynName(noName);
             synonym.setCodeId(codeId);
             flg = synonymMapper.insert(synonym);
