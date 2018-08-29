@@ -125,12 +125,12 @@
 
     <!--获取当前用户实体类总数-->
     <select id="getEntityClassCountByUerId"  parameterType="java.lang.String" resultType="java.lang.Integer">
-        SELECT count(*) from UsrEntity u where u.usrSID=#{0}
+        SELECT count(*) from ENTITYTYPE u where u.usrSID=#{0}
     </select>
 
     <!--获取当前用户实体总数-->
     <select id="getEntityCountByUerId"  parameterType="java.lang.String" resultType="java.lang.Integer">
-        SELECT count(*) from ENTITYTYPE u where u.usrSID=#{0}
+        SELECT count(*) from UsrEntity u where u.usrSID=#{0}
     </select>
 
     <!--获取近30天的创建实体数量-->
