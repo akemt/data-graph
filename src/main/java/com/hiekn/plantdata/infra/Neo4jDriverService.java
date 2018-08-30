@@ -1,5 +1,7 @@
 package com.hiekn.plantdata.infra;
 
+import org.neo4j.driver.v1.StatementResult;
+
 /**
  * neo4j数据库驱动
  */
@@ -18,4 +20,11 @@ public interface Neo4jDriverService {
      * @param cql
      */
     public void saveLabels(String cql);
+
+    /**
+     * 获取neo4j数据库信息
+     * @param cql
+     * @return
+     */
+    public StatementResult getNeo4jDetail(String cql);
 }

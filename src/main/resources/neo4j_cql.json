@@ -1,0 +1,14 @@
+[
+  {
+    "cql_key": "cql1",
+    "cql_value": "MATCH path = (n)-[r]-(p) where id(n)=7  RETURN  nodes(path) as nodes,relationships(path) as relationships"
+  },
+  {
+    "cql_key": "cql2",
+    "cql_value": "MATCH path = (n)-[r]-(p)  RETURN  nodes(path) as nodes,relationships(path) as relationships"
+  },
+  {
+    "cql_key": "cql3",
+    "cql_value": "MATCH path = (n)-[r]-(p) where id(n)=7  RETURN  nodes(path) as nodes,relationships(path) as relationships"
+  }
+]

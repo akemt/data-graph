@@ -113,4 +113,16 @@ public interface GraphService {
      * @return
      */
     public abstract RestData<GraphBean> getGraphByEntityId(Integer paramInteger1, String paramString, Long paramLong1, Long paramLong2, Integer paramInteger2, Integer paramInteger3, Integer paramInteger4, Integer paramInteger5);
+
+
+    /**
+     *
+     * @param usrId
+     * @param key
+     * @return
+     */
+    public GraphBean  getNeo4jGraph(String usrId,String key, Long id,Integer paramInteger2, List<String> paramList1, List<String> paramList2, boolean paramBoolean,Integer pageSize);
+
+
+    public List<Long> getGraphTotalNodeByKey(String userId,String key);
 }

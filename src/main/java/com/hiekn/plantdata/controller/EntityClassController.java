@@ -38,7 +38,7 @@ public class EntityClassController {
         if (map.get("id") !=null) {
             return Result.success(map, 200, "保存成功!");
         } else {
-            return Result.success("", 303, "用户名冲突!");
+            return Result.success("", 303, "实体类名冲突!");
         }
     }
 

@@ -15,10 +15,18 @@ import com.hiekn.plantdata.exception.ServiceException;
 import com.hiekn.plantdata.infra.EntityClassService;
 import com.hiekn.plantdata.infra.EntityService;
 import com.hiekn.plantdata.infra.GraphService;
+import com.hiekn.plantdata.infra.Neo4jDriverService;
+import com.hiekn.plantdata.mapper.EntityMapper;
 import com.hiekn.plantdata.parser.EntityParser;
 import com.hiekn.plantdata.parser.GraphParser;
 import com.hiekn.plantdata.util.ArrayUtils;
 import com.hiekn.plantdata.util.JSONUtils;
+import com.hiekn.plantdata.util.LoaderJsonUtils;
+import org.neo4j.driver.internal.InternalNode;
+import org.neo4j.driver.internal.InternalRelationship;
+import org.neo4j.driver.internal.value.InternalValue;
+import org.neo4j.driver.v1.Record;
+import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.ogm.response.model.NodeModel;
 import org.neo4j.ogm.response.model.RelationshipModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +53,13 @@ public class GraphServiceImpl implements GraphService {
 
     @Autowired
     private EntitysRepository entitysRepository;
+
+    @Autowired
+    private Neo4jDriverService neo4jDriverService;
+
+
+    @Autowired
+    private EntityMapper entityMapper;
 
 
     public SchemaBean getAllAtts(String userId) {
@@ -381,13 +396,119 @@ public class GraphServiceImpl implements GraphService {
         return rsData;
     }
 
+    @Override
+    public GraphBean getNeo4jGraph(String usrId, String key, Long id,Integer distance, List<String> allowAtts, List<String> allowTypes, boolean isMergeRelation,Integer pageSize) {
+
+        String strValue = LoaderJsonUtils.getNeo4jJsonValueByKey(key);
+
+        if("".equals(strValue)){
+            GraphBean gb1 = null;
+            return gb1;
+        }
+        StatementResult statementResult = neo4jDriverService.getNeo4jDetail(strValue);
+
+        GraphHasAttsItem graphHasAttsItem = new GraphHasAttsItem();
+        List<Enterprise> entityList = new ArrayList<Enterprise>();
+
+        List<RelationItem> relationItemList = new ArrayList<RelationItem>();
+        List<Long>  longList = new ArrayList<>();
+        while (statementResult.hasNext())
+        {
+            Record record = statementResult.next();
+            //值可以通过索引或名称从记录中提取。
+            if(record.get("nodes") != null){
+                List<Object> listNodes = record.get("nodes").asList();
+                Enterprise enterprise = null;
+                for (int i = 0; i < listNodes.size(); i++) {
+                    InternalNode internalNode = (InternalNode) listNodes.get(i);
+//                    enterprise = new Enterprise();
+//                    enterprise.setId(internalNode.id());
+//                    Map<String, Object> stringObjectMap = internalNode.asMap();
+//                    enterprise.setName(String.valueOf(stringObjectMap.get("name")));
+//                    enterprise.setEn_id(internalNode.id());
+//                    enterprise.setClassId(this.queryLablesByID(internalNode.id()));
+//                    enterprise.setImg("");
+//                    enterprise.setKgType(1);
+//                    entityList.add(enterprise);
+
+                    if(allowTypes.size()>0){
+                        allowTypes.addAll(internalNode.labels());
+                    }
+
+                    longList.add(internalNode.id());
+                }
+            }
+//            graphHasAttsItem.setEntityList(ArrayUtils.removeDuplicateEnterprise(entityList));
+//
+//            RelationItem relationItem = null;
+//            if(record.get("relationships") != null){
+//                List<Object> listRelationships = record.get("relationships").asList();
+//                for (int j = 0; j < listRelationships.size(); j++) {
+//                    InternalRelationship internalRelationship = (InternalRelationship) listRelationships.get(j);
+//                    relationItem = new RelationItem();
+//                    relationItem.setId(String.valueOf(internalRelationship.id()));
+//                    relationItem.setAttId(String.valueOf(internalRelationship.id()));
+//                    relationItem.setAttName(String.valueOf(internalRelationship.type()));
+//                    relationItem.setFromId(internalRelationship.startNodeId());
+//                    relationItem.setToId(internalRelationship.endNodeId());
+//
+//                    relationItemList.add(relationItem);
+//                }
+//            }
+//            graphHasAttsItem.setRelationList(ArrayUtils.removeDuplicateRelationshipModel(relationItemList));
+        }
+//        GraphBean gb = GraphParser.GraphItem2GraphBean(graphHasAttsItem, true);
+
+        //分析层次
+        List<ResultheadData> listResultheadData = null;
+        if (distance == 1) {
+            listResultheadData = kGraphRepository.findGraphArrangement11(ArrayUtils.listDataToLong(longList), ArrayUtils.listDataToString(allowAtts), ArrayUtils.listDataToString(allowTypes),pageSize);
+        } else if (distance == 2) {
+            listResultheadData = kGraphRepository.findGraphArrangement22(ArrayUtils.listDataToLong(longList), ArrayUtils.listDataToString(allowAtts), ArrayUtils.listDataToString(allowTypes),pageSize);
+        } else {
+            listResultheadData = kGraphRepository.findGraphArrangement33(ArrayUtils.listDataToLong(longList), ArrayUtils.listDataToString(allowAtts), ArrayUtils.listDataToString(allowTypes),pageSize);
+        }
+        GraphBean graphBean = this.resultheadData(id,listResultheadData, isMergeRelation,null);
+        return graphBean;
+    }
+
+    @Override
+    public List<Long> getGraphTotalNodeByKey(String userId, String key) {
+        String strValue = LoaderJsonUtils.getNeo4jJsonValueByKey(key);
+
+        if("".equals(strValue)){
+            return null;
+        }
+        StatementResult statementResult = neo4jDriverService.getNeo4jDetail(strValue);
+
+        GraphHasAttsItem graphHasAttsItem = new GraphHasAttsItem();
+        List<Enterprise> entityList = new ArrayList<Enterprise>();
+
+        List<RelationItem> relationItemList = new ArrayList<RelationItem>();
+        List<Long>  longList = new ArrayList<>();
+        while (statementResult.hasNext()) {
+            Record record = statementResult.next();
+            //值可以通过索引或名称从记录中提取。
+            if (record.get("nodes") != null) {
+                List<Object> listNodes = record.get("nodes").asList();
+                Enterprise enterprise = null;
+                for (int i = 0; i < listNodes.size(); i++) {
+                    InternalNode internalNode = (InternalNode) listNodes.get(i);
+
+                    longList.add(internalNode.id());
+                }
+            }
+        }
+
+        List<Map<String,String>>  mapList = entityMapper.getUsrGraphNodesList(userId);
+        List<Long> longListUsr = ArrayUtils.getMapListToListLong(mapList);
+        longList.retainAll(longListUsr);
+        return longList;
+    }
+
 
     public RestData<GraphBean> getInsGraph(Integer userId, String kgName, Long entityId, Integer direction, Integer pageNo, Integer pageSize)
   {
-
-
-
-
       GraphBean graphBean = null;
 //      graphBean = EditParser.ServiceEntityItem2GraphBean(entityId, direction, (ServiceEntityItem) kgResultItem.getData());
       return new RestData(graphBean);

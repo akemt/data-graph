@@ -126,6 +126,23 @@ public class Neo4jRepository {
         return statementResult;
     }
 
+
+    /**
+     * 读取数据Neo4j 数据
+     *
+     * @param cql
+     */
+    public StatementResult getNeo4jDetail(String cql)
+    {
+        StatementResult statementResult = null;
+        try (Session session = driver.session())
+        {
+            //自动提交事务是一个快速而简单的方法来完成读取。
+            statementResult = session.run(cql);
+        }
+        return statementResult;
+    }
+
     /**
      * 关闭驱动
      */
