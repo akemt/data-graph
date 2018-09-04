@@ -81,12 +81,12 @@ public interface KGraphRepository extends GraphRepository<ResultheadData> {
 //            "MATCH path = (n)-[r1]-(p)-[r2]-(q)-[r3]-(s) where id(n)={en_id} and n<>p<>q<>s and type(r1) in {type} " +
 //            "and ALL (x in labels(p) where x in {labels}) and type(r2) in {type} and ALL (x in labels(q) where x in {labels}) and type(r3) in {type} " +
 //            "and ALL (x in labels(s) where x in {labels}) RETURN  nodes(path) as nodes,relationships(path) as relationships")
-    @Query("MATCH path = (n)-[*1..3]-(p) where id(n)  in {en_id}   and id(p) in {en_id}  and n<>p and ALL ( r in relationships(path) " +
+    @Query("MATCH path = (n)-[*1..3]-(p) where id(n)  in {en_id}  and n<>p and ALL ( r in relationships(path) " +
         "where type(r) in {type}) and ALL (x in labels(p) where x in {labels}) " +
         "RETURN  nodes(path) as nodes,relationships(path) as relationships LIMIT {pageSize};")
     List<ResultheadData> findGraphArrangement3(@Param("en_id") long[] en_id, @Param("type") String[] type, @Param("labels") String[] labels,@Param("pageSize")Integer pageSize);
 
-    @Query("MATCH path = (n)-[*1..3]-(p) where id(n)  in {en_id} and n<>p and ALL ( r in relationships(path) " +
+    @Query("MATCH path = (n)-[*1..3]-(p) where id(n)  in {en_id}  and id(p) in {en_id} and n<>p and ALL ( r in relationships(path) " +
             "where type(r) in {type}) and ALL (x in labels(p) where x in {labels}) " +
             "RETURN  nodes(path) as nodes,relationships(path) as relationships LIMIT {pageSize};")
     List<ResultheadData> findGraphArrangement33(@Param("en_id") long[] en_id, @Param("type") String[] type, @Param("labels") String[] labels,@Param("pageSize")Integer pageSize);

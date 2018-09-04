@@ -9,6 +9,6 @@
   },
   {
     "cql_key": "cql3",
-    "cql_value": "MATCH path = (n)-[r]-(p) where id(n)=7  RETURN  nodes(path) as nodes,relationships(path) as relationships"
+    "cql_value": "MATCH path = (n)-[r]-(p) where id(n)=20  RETURN  nodes(path) as nodes,relationships(path) as relationships"
   }
 ]
